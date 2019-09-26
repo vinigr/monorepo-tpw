@@ -1,13 +1,24 @@
 import React, { useState } from "react";
 
-import { Container } from "./styles";
+import { Container, LinkHome, LinkRegister } from "./styles";
+import logo from "../../assets/images/rede-ftc.png";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  async function login(e) {
+    e.preventDefault();
+    try {
+      console.log(email, password);
+    } catch (error) {}
+  }
+
   return (
     <Container>
+      <LinkHome to="/">
+        <img src={logo} alt="rede-ftc" />
+      </LinkHome>
       <form>
         <h1>Login</h1>
         <input
@@ -20,7 +31,10 @@ export default function Login() {
           value={password}
           onChange={e => setPassword(e.target.value)}
         />
-        <button>Entrar</button>
+        <div id="options">
+          <LinkRegister to="/cadastro">Cadastrar-se</LinkRegister>
+          <button onClick={login}>Entrar</button>
+        </div>
       </form>
     </Container>
   );
