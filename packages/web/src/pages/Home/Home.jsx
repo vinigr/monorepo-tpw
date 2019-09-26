@@ -17,6 +17,7 @@ export default function Home() {
   return (
     <Container>
       <header>
+        <h1>Artigos</h1>
         <LinkLogin to="/login">Login</LinkLogin>
       </header>
       <img src={logo} alt="rede-ftc-logo" />

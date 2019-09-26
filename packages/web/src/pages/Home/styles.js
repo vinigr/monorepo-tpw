@@ -15,7 +15,7 @@ export const Container = styled.div`
     left: 0;
     width: calc(100vw - 40px);
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     padding: 10px 20px;
   }
 
@@ -52,8 +52,13 @@ export const Container = styled.div`
 
 export const IconSearch = styled(Search)`
   height: 30px;
-  color: #4a4a4a;
+  color: #429fca;
   margin-left: 5px;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+  }
 `;
 
 export const LinkLogin = styled(Link)`
@@ -62,6 +67,8 @@ export const LinkLogin = styled(Link)`
   border-radius: 4px;
   text-decoration: none;
   color: #fff;
+  display: flex;
+  align-items: center;
 
   &:hover {
     opacity: 0.8;
