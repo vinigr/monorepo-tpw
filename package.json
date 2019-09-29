@@ -1,6 +1,11 @@
 {
   "name": "monorepo-tpw",
   "private": true,
+  "scripts": {
+    "start:web": "yarn workspace web start",
+    "start:server": "yarn workspace server start",
+    "start": "yarn start:web & yarn start:server"
+  },
   "workspaces": {
     "packages": [
       "packages/*"
