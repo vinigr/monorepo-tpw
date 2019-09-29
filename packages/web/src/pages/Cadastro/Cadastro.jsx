@@ -1,22 +1,54 @@
 import React, { useState } from "react";
+import { Redirect } from "react-router-dom";
 
 import { Container, LinkHome, LinkRegister } from "./styles";
 import logo from "../../assets/images/rede-ftc.png";
+
+import api from "../../service/api";
 
 export default function Cadastro() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState();
+  const [redirect, setRedirect] = useState();
 
   async function register(e) {
     e.preventDefault();
+
+    if (!name || !email || !password) {
+      return setError("Email ou senha incompletos!");
+    }
+
     try {
-      console.log(name, email, password);
-    } catch (error) {}
+      const { data } = await api.post("/criarUsuario", {
+        nome: name,
+        login: email,
+        senha: password
+      });
+
+      setRedirect(true);
+    } catch ({ response }) {
+      setError(response.data.error);
+    }
+  }
+
+  function renderRedirect() {
+    if (redirect) {
+      return (
+        <Redirect
+          to={{
+            pathname: "/login",
+            state: { email }
+          }}
+        />
+      );
+    }
   }
 
   return (
     <Container>
+      {renderRedirect()}
       <LinkHome to="/">
         <img src={logo} alt="rede-ftc" />
       </LinkHome>
@@ -34,6 +66,7 @@ export default function Cadastro() {
         />
         <input
           placeholder="Senha"
+          type="password"
           value={password}
           onChange={e => setPassword(e.target.value)}
         />
@@ -41,6 +74,7 @@ export default function Cadastro() {
           <LinkRegister to="/login">Fazer login</LinkRegister>
           <button onClick={register}>Cadastrar</button>
         </div>
+        {error && <span className="error">{error}</span>}
       </form>
     </Container>
   );
