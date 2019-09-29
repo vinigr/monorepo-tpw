@@ -42,7 +42,7 @@ export const Container = styled.div`
     width: 100%;
     justify-content: space-between;
     align-items: center;
-    margin-top: 30px;
+    margin: 30px 0 14px;
   }
 
   button {
