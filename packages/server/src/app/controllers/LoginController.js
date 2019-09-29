@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const yup = require('yup');
+const bcrypt = require('bcrypt');
 
 const Usuario = require('../models/Usuario');
 const AuthConfig = require('../../config/auth');
@@ -19,7 +20,7 @@ class LoginController {
 
     const { login, senha } = req.body;
 
-    const usuario = await Usuario.findOne({ where: { login } });
+    const usuario = await Usuario.findOne({ login });
 
     if (!usuario) {
       return res.status(401).json({ error: 'Usuário não encontrado' });
@@ -35,7 +36,7 @@ class LoginController {
       user: {
         id,
         nome,
-        administrador, 
+        administrador,
         professor,
       },
       token: jwt.sign({ id, administrador, professor }, AuthConfig.secret, {
