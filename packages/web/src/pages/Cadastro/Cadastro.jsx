@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import { Redirect } from "react-router-dom";
+import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
 
-import { Container, LinkHome, LinkRegister } from "./styles";
-import logo from "../../assets/images/rede-ftc.png";
+import { Container, LinkHome, LinkRegister } from './styles';
+import logo from '../../assets/images/rede-ftc.png';
 
-import api from "../../service/api";
+import api from '../../service/api';
 
 export default function Cadastro() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState();
   const [redirect, setRedirect] = useState();
 
@@ -17,14 +17,21 @@ export default function Cadastro() {
     e.preventDefault();
 
     if (!name || !email || !password) {
-      return setError("Email ou senha incompletos!");
+      return setError('Email ou senha incompletos!');
+    }
+
+    const regex = /^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\.)?[a-zA-Z]+\.)?(ftc)\.edu\.br$/;
+
+    if (!regex.test(email)) {
+      setError("Seu email precisa ser dominio '.ftc'");
+      return;
     }
 
     try {
-      const { data } = await api.post("/criarUsuario", {
+      await api.post('/criarUsuario', {
         nome: name,
         login: email,
-        senha: password
+        senha: password,
       });
 
       setRedirect(true);
@@ -38,8 +45,8 @@ export default function Cadastro() {
       return (
         <Redirect
           to={{
-            pathname: "/login",
-            state: { email }
+            pathname: '/login',
+            state: { email },
           }}
         />
       );
