@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
-import logo from "../../assets/images/rede-ftc.png";
-import { Container, IconSearch, LinkLogin } from "./styles";
+import logo from '../../assets/images/rede-ftc.png';
+import { Container, IconSearch, LinkLogin } from './styles';
 
 export default function Home() {
-  const [text, setText] = useState("");
+  const [text, setText] = useState('');
 
   function search() {}
 
@@ -30,7 +31,9 @@ export default function Home() {
           onKeyDown={keyPress}
           required
         />
-        <IconSearch onClick={() => console.log(text)} />
+        <Link to={`/search?q=${text}`}>
+          <IconSearch />
+        </Link>
       </div>
     </Container>
   );
