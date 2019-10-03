@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
-import { Container, LinkHome, LinkRegister } from "./styles";
-import logo from "../../assets/images/rede-ftc.png";
+import { Container, LinkHome, LinkRegister } from './styles';
+import logo from '../../assets/images/rede-ftc.png';
 
-import api from "../../service/api";
-import AuthService from "../../service/auth";
+import api from '../../service/api';
+import AuthService from '../../service/auth';
 
 export default function Login(props) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState();
 
   useEffect(() => {
-    if (props.location.state.email) {
+    if (props.location.state !== undefined) {
       setEmail(props.location.state.email);
     }
   }, [props]);
@@ -22,13 +22,13 @@ export default function Login(props) {
     setError(null);
 
     if (!email || !password) {
-      return setError("Email ou senha incompletos!");
+      return setError('Email ou senha incompletos!');
     }
 
     try {
-      const { data } = await api.post("/login", {
+      const { data } = await api.post('/login', {
         login: email,
-        senha: password
+        senha: password,
       });
 
       AuthService.setToken(data.token);
