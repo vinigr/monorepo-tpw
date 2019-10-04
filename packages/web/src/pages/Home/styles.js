@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import { Search } from "styled-icons/material/Search";
-import { Link } from "react-router-dom";
+import styled from 'styled-components';
+import { Search } from 'styled-icons/material/Search';
+import { Link } from 'react-router-dom';
 
 export const Container = styled.div`
   height: 100vh;
@@ -73,4 +73,9 @@ export const LinkLogin = styled(Link)`
   &:hover {
     opacity: 0.8;
   }
+`;
+
+export const LinkMenu = styled(Link)`
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.87);
 `;
