@@ -1,24 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
-import { Avatar, Menu, MenuItem, Fade } from '@material-ui/core';
-import { blue } from '@material-ui/core/colors';
+import MenuAvatar from '../../components/MenuAvatar/MenuAvatar';
+import Avatar from '../../components/Avatar/Avatar';
 
 import logo from '../../assets/images/rede-ftc.png';
-import { Container, IconSearch, LinkLogin, LinkMenu } from './styles';
+import { Container, IconSearch, LinkLogin } from './styles';
 
 import AuthService from '../../service/auth';
 
-const useStyles = makeStyles({
-  blueAvatar: {
-    color: '#fff',
-    backgroundColor: blue[800],
-    cursor: 'pointer',
-  },
-});
-
 export default function Home(props) {
-  const classes = useStyles();
   const [text, setText] = useState('');
   const [name, setName] = useState();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -40,22 +30,12 @@ export default function Home(props) {
     setAnchorEl(null);
   };
 
-  function logout() {
-    AuthService.logout(props);
-    props.history.go();
-  }
-
   return (
     <Container>
       <header>
         <h1>Artigos</h1>
         {name ? (
-          <Avatar
-            className={classes.blueAvatar}
-            onClick={e => setAnchorEl(e.currentTarget)}
-          >
-            {name.substring(0, 1)}
-          </Avatar>
+          <Avatar setAnchorEl={setAnchorEl} name={name} />
         ) : (
           <LinkLogin to="/login">Login</LinkLogin>
         )}
@@ -74,19 +54,12 @@ export default function Home(props) {
           <IconSearch />
         </Link>
       </div>
-      <Menu
-        id="fade-menu"
+      <MenuAvatar
         anchorEl={anchorEl}
-        keepMounted
         open={open}
-        onClose={handleClose}
-        TransitionComponent={Fade}
-      >
-        <LinkMenu to="/account">
-          <MenuItem onClick={handleClose}>Minha conta</MenuItem>
-        </LinkMenu>
-        <MenuItem onClick={logout}>Sair</MenuItem>
-      </Menu>
+        handleClose={handleClose}
+        {...props}
+      />
     </Container>
   );
 }

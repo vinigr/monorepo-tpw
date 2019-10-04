@@ -4,9 +4,15 @@ export const Container = styled.div`
   section#area-search {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     background-color: #f1f1f1;
     height: 60px;
     padding: 10px 14px;
+
+    div#initial-area {
+      display: flex;
+      align-items: center;
+    }
 
     img {
       width: 100px;
