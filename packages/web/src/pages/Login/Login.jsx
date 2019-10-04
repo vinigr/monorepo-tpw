@@ -31,7 +31,13 @@ export default function Login(props) {
         senha: password,
       });
 
-      AuthService.setToken(data.token);
+      const dados = JSON.stringify({
+        token: data.token,
+        name: data.user.nome,
+      });
+
+      AuthService.setToken(dados);
+      props.history.go();
     } catch ({ response }) {
       setError(response.data.error);
     }
