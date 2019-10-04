@@ -3,8 +3,8 @@ import decode from 'jwt-decode';
 const TOKEN_KEY = '@tpw-artigos';
 
 const AuthService = {
-  setToken(token) {
-    localStorage.setItem(TOKEN_KEY, token);
+  setToken(dados) {
+    localStorage.setItem(TOKEN_KEY, dados);
   },
 
   loggedIn() {
@@ -24,16 +24,29 @@ const AuthService = {
   },
 
   getToken() {
-    return localStorage.getItem(TOKEN_KEY);
+    let token;
+    if (localStorage.getItem(TOKEN_KEY)) {
+      token = JSON.parse(localStorage.getItem(TOKEN_KEY)).token;
+    }
+
+    return token;
   },
 
   logout(props) {
     localStorage.removeItem(TOKEN_KEY);
-    props.history.push('/');
+    props.history.go();
   },
 
   getProfile() {
     return decode(this.getToken());
+  },
+
+  getName() {
+    let name;
+    if (localStorage.getItem(TOKEN_KEY)) {
+      name = JSON.parse(localStorage.getItem(TOKEN_KEY)).name;
+    }
+    return name;
   },
 };
 
