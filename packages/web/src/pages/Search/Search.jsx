@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import queryString from 'query-string';
 
 import { Container } from './styles';
@@ -13,12 +14,13 @@ export default function Search(props) {
   useEffect(() => {
     const { article } = queryString.parse(props.location.search);
     setText(article);
-    console.log(article);
   }, [props.location.search]);
   return (
     <Container>
       <section id="area-search">
-        <img src={logo} alt="rede-ftc-logo" />
+        <Link to="/">
+          <img src={logo} alt="rede-ftc-logo" />
+        </Link>
         <input
           type="text"
           value={text}
