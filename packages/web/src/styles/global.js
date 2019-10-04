@@ -16,4 +16,8 @@ export default createGlobalStyle`
   body {
     -webkit-font-smoothing: antialiased !important;
   }
+
+  span.error {
+    color: #BD2732;
+  }
 `;
