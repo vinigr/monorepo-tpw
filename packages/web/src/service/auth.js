@@ -1,6 +1,6 @@
-import decode from "jwt-decode";
+import decode from 'jwt-decode';
 
-const TOKEN_KEY = "@tpw-artigos";
+const TOKEN_KEY = '@tpw-artigos';
 
 const AuthService = {
   setToken(token) {
@@ -29,7 +29,7 @@ const AuthService = {
 
   logout(props) {
     localStorage.removeItem(TOKEN_KEY);
-    props.history.push("/");
+    props.history.push('/');
   },
 
   getProfile() {
