@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
-import { Home, Login, Cadastro, Search } from './pages';
+import { Home, Login, Cadastro, Search, Send } from './pages';
 import GlobalStyle from './styles/global';
 import AuthService from './service/auth';
 
@@ -30,6 +30,7 @@ function App() {
           component={props => <Cadastro {...props} />}
         />
         <Route exact path="/search" component={Search} />
+        <Route exact path="/send" component={Send} />
       </Switch>
       <GlobalStyle />
     </BrowserRouter>
