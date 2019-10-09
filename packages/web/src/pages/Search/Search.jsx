@@ -37,6 +37,7 @@ export default function Search(props) {
     }
 
     async function fetchData() {
+      setLoading(true);
       try {
         const { data } = await api.post('/trabalho', {
           pesquisa: article,
