@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import AsyncSelect from 'react-select/async';
 import { useDropzone } from 'react-dropzone';
-import { Container, IconImage } from './styles';
+import { Container, IconArchive, IconPdf, IconCancel } from './styles';
 
 export default function Send() {
   const [name, setName] = useState('');
+  const [summary, setSummary] = useState('');
   const [archive, setArchive] = useState();
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -21,6 +22,7 @@ export default function Send() {
   return (
     <Container>
       <form>
+        <h1>Enviar artigo</h1>
         <label>Qual o nome do artigo?</label>
         <input
           className="text"
@@ -28,16 +30,29 @@ export default function Send() {
           value={name}
           onChange={e => setName(e.target.value)}
         />
-
         <label>Quem são os autores?</label>
         <AsyncSelect isMulti loadOptions={() => {}} placeholder="Selecione" />
-        {!archive && (
+        <label>Qual o resumo?</label>
+        <textarea
+          className="text"
+          type="text"
+          value={summary}
+          onChange={e => setSummary(e.target.value)}
+        />
+        {archive ? (
+          <div id="pdf">
+            <IconPdf />
+            <span>{archive.name}</span>
+            <IconCancel onClick={() => setArchive(null)} />
+          </div>
+        ) : (
           <div id="upload" {...getRootProps()}>
-            <IconImage />
+            <IconArchive />
             <input {...getInputProps()} />
             <p>Arraste um arquivo ou clique aqui</p>
           </div>
         )}
+        {console.log(archive)}
       </form>
     </Container>
   );
