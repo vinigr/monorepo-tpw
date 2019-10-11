@@ -7,6 +7,7 @@ export default function Send() {
   const [name, setName] = useState('');
   const [summary, setSummary] = useState('');
   const [archive, setArchive] = useState();
+  const [keywords, setKeywords] = useState('');
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: 'application/pdf',
@@ -32,6 +33,13 @@ export default function Send() {
         />
         <label>Quem são os autores?</label>
         <AsyncSelect isMulti loadOptions={() => {}} placeholder="Selecione" />
+        <label>Qual as palavras-chave?</label>
+        <input
+          className="text"
+          type="text"
+          value={keywords}
+          onChange={e => setKeywords(e.target.value)}
+        />
         <label>Qual o resumo?</label>
         <textarea
           className="text"
@@ -52,7 +60,7 @@ export default function Send() {
             <p>Arraste um arquivo ou clique aqui</p>
           </div>
         )}
-        {console.log(archive)}
+        <button>Concluir</button>
       </form>
     </Container>
   );
