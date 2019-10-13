@@ -26,6 +26,10 @@ router.post('/criarUsuario', UsuarioController.store);
 
 router.use(authMiddleware);
 
-router.post('/arquivo', upload.single('file'), ArquivoController.store);
+router.post(
+  '/arquivo/:idTrabalho',
+  upload.single('file'),
+  ArquivoController.store
+);
 
 module.exports = router;
