@@ -6,9 +6,11 @@ const Usuario = require('../models/Usuario');
 class UsuarioController {
   async store(req, res) {
     const schema = yup.object().shape({
-      login: yup.string()
-      .email()
-      .required(),
+      login: yup
+        .string()
+        .email()
+        .matches(/.+@ftc.edu.br/i)
+        .required(),
       senha: yup.string().required(),
       nome: yup.string().required(),
     });
@@ -22,11 +24,11 @@ class UsuarioController {
     const hashSenha = await bcrypt.hash(senha, 8);
 
     const usuario = await Usuario.create({
-      login,
+      login: login.toLowerCase(),
       nome,
       hashSenha,
       professor: false,
-      administrador: false
+      administrador: false,
     });
 
     return res.status(200).json({

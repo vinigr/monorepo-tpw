@@ -8,7 +8,8 @@ const AuthConfig = require('../../config/auth');
 class LoginController {
   async store(req, res) {
     const schema = yup.object().shape({
-      login: yup.string()
+      login: yup
+        .string()
         .email()
         .required(),
       senha: yup.string().required(),
@@ -20,13 +21,13 @@ class LoginController {
 
     const { login, senha } = req.body;
 
-    const usuario = await Usuario.findOne({ login });
+    const usuario = await Usuario.findOne({ login: login.toLowerCase });
 
     if (!usuario) {
       return res.status(401).json({ error: 'Usuário não encontrado' });
     }
 
-    if (!(bcrypt.compare(senha, usuario.hashSenha))) {
+    if (!bcrypt.compare(senha, usuario.hashSenha)) {
       return res.status(401).json({ error: 'Senha incorreta' });
     }
 
