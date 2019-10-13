@@ -11,7 +11,7 @@ mongoose.connect(
 );
 app.use(express.json());
 
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
   let oneof = false;
   if (req.headers.origin) {
     res.header('Access-Control-Allow-Origin', req.headers.origin);
@@ -36,7 +36,7 @@ app.use(function(req, res, next) {
   }
 
   // intercept OPTIONS method
-  if (oneof && req.method == 'OPTIONS') {
+  if (oneof && req.method === 'OPTIONS') {
     res.send(200);
   } else {
     next();
