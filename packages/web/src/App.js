@@ -1,6 +1,14 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
-import { Home, Login, Cadastro, Search, Send, PageNotFound } from './pages';
+import {
+  Account,
+  Home,
+  Login,
+  Cadastro,
+  Search,
+  Send,
+  PageNotFound,
+} from './pages';
 import GlobalStyle from './styles/global';
 import AuthService from './service/auth';
 
@@ -31,6 +39,7 @@ function App() {
         />
         <Route exact path="/search" component={Search} />
         <Route exact path="/send" component={Send} />
+        <Route exact path="/account" component={Account} />
         <Route
           path="*"
           component={() => <PageNotFound>Page not found</PageNotFound>}
