@@ -50,7 +50,12 @@ export default function Send() {
           onChange={e => setName(e.target.value)}
         />
         <label>Quem são os autores?</label>
-        <AsyncSelect isMulti loadOptions={() => {}} placeholder="Selecione" />
+        <AsyncSelect
+          className="select"
+          isMulti
+          loadOptions={() => {}}
+          placeholder="Selecione"
+        />
         <label>Qual as palavras-chave?</label>
         <div className="tags-input">
           <ul id="tags">
@@ -67,12 +72,6 @@ export default function Send() {
             placeholder="Pressione enter para adicionar mais palavras-chave"
           />
         </div>
-        {/* <input
-          className="text"
-          type="text"
-          value={keywordInput}
-          onChange={e => setKeywordInput(e.target.value)}
-        /> */}
         <label>Qual o resumo?</label>
         <textarea
           className="text"

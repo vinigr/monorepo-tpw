@@ -52,7 +52,7 @@ export const Container = styled.div`
       resize: none;
       width: calc(100% - 8px);
       border-radius: 2px;
-      padding: 2px 4px;
+      padding: 4px;
       border: 1px solid #dfe3e9;
       min-height: 100px;
     }
@@ -85,6 +85,10 @@ export const Container = styled.div`
       }
     }
 
+    .select {
+      margin-bottom: 12px;
+    }
+
     .tags-input {
       display: flex;
       align-items: flex-start;
@@ -92,6 +96,7 @@ export const Container = styled.div`
       min-height: 48px;
       width: 100%;
       border-radius: 2px;
+      margin-bottom: 12px;
 
       &:focus-within {
         border: 1px solid #0052cc;
