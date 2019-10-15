@@ -1,28 +1,26 @@
 import React from 'react';
 
-import { Container, Check, EditIcon } from './styles';
+import { Container, LinkArticle, Check, CancelIcon } from './styles';
 
-export default function MyArticle({ titulo, publicado, editavel }) {
+export default function MyArticle({ id, titulo, publicado, editavel }) {
   return (
     <Container>
-      <div>
-        <h3>{titulo}</h3>
-      </div>
-
-      <div id="status">
-        <span>Status</span>
-        {publicado ? (
-          <>
+      <LinkArticle to={`/article/${id}`}>
+        <div>
+          <h3>{titulo}</h3>
+          <div></div>
+        </div>
+        <div id="status">
+          <div className="publicado">
             <span>Publicado</span>
-            <Check />
-          </>
-        ) : (
-          <>
+            {publicado ? <Check /> : <CancelIcon />}
+          </div>
+          <div className="publicado">
             <span>Editável</span>
-            <EditIcon editavel={editavel} />
-          </>
-        )}
-      </div>
+            {editavel ? <Check /> : <CancelIcon />}
+          </div>
+        </div>
+      </LinkArticle>
     </Container>
   );
 }

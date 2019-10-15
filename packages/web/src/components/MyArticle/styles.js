@@ -1,11 +1,12 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { CheckCircle } from 'styled-icons/boxicons-regular/CheckCircle';
-import { Edit } from 'styled-icons/material/Edit';
+import { Cancel } from 'styled-icons/typicons/Cancel';
 
 export const Container = styled.li`
   display: flex;
-  justify-content: space-between;
-  padding: 10px;
+  background-color: #fff;
+  margin-bottom: 12px;
 
   &:hover {
     border-radius: 4px;
@@ -27,12 +28,24 @@ export const Container = styled.li`
   }
 `;
 
+export const LinkArticle = styled(Link)`
+  display: flex;
+  padding: 10px;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  color: #3d3d3d;
+`;
+
 export const Check = styled(CheckCircle)`
   color: green;
   width: 24px;
+  margin-left: 4px;
 `;
 
-export const EditIcon = styled(Edit)`
-  color: ${props => (props.editavel ? '#36B203' : '#C02B27')};
+export const CancelIcon = styled(Cancel)`
+  color: #c02b27;
   width: 24px;
+  margin-left: 4px;
 `;
