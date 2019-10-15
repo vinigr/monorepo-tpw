@@ -28,6 +28,21 @@ function App() {
     />
   );
 
+  const PrivateRoute = ({ component: Component, ...rest }) => (
+    <Route
+      {...rest}
+      render={props =>
+        AuthService.loggedIn() ? (
+          <Component {...props} />
+        ) : (
+          <Redirect
+            to={{ pathname: '/login', state: { from: props.location } }}
+          />
+        )
+      }
+    />
+  );
+
   return (
     <BrowserRouter>
       <Switch>
@@ -39,7 +54,11 @@ function App() {
         />
         <Route exact path="/search" component={Search} />
         <Route exact path="/send" component={Send} />
-        <Route exact path="/account" component={Account} />
+        <PrivateRoute
+          exact
+          path="/account"
+          component={props => <Account {...props} />}
+        />
         <Route
           path="*"
           component={() => <PageNotFound>Page not found</PageNotFound>}
