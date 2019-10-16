@@ -48,6 +48,21 @@ const AuthService = {
     }
     return name;
   },
+
+  getRole() {
+    let role;
+    const user = JSON.parse(localStorage.getItem(TOKEN_KEY));
+    if (localStorage.getItem(TOKEN_KEY)) {
+      if (user.administrador) {
+        return (role = 'administrador');
+      } else if (user.professor) {
+        return (role = 'professor');
+      } else {
+        return (role = 'aluno');
+      }
+    }
+    return role;
+  },
 };
 
 export default AuthService;
