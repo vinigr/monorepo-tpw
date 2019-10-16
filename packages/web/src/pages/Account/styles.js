@@ -35,6 +35,10 @@ export const Container = styled.div`
       border-radius: 2px;
       font-size: 16px;
       font-weight: 600;
+
+      &:hover {
+        opacity: 0.8;
+      }
     }
   }
 
@@ -42,7 +46,8 @@ export const Container = styled.div`
     margin-bottom: 10px;
   }
 
-  #articles {
+  #articles,
+  #users {
     width: 80%;
   }
 `;

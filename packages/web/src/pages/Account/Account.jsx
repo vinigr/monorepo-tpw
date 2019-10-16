@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import { Container } from './styles';
 import MyArticle from '../../components/MyArticle/MyArticle.jsx';
+import User from '../../components/User/User.jsx';
 
 import AuthService from '../../service/auth';
 
@@ -17,6 +18,19 @@ const articles = [
     titulo: 'Aenean cursus sem non metus tincidunt consectetur.',
     publicado: false,
     editavel: true,
+  },
+];
+
+const users = [
+  {
+    id: '1',
+    name: 'Stephanie G. Powell',
+    professor: true,
+  },
+  {
+    id: '2',
+    name: 'Kauã Costa Ferreira',
+    professor: false,
   },
 ];
 
@@ -52,6 +66,14 @@ export default function Account(props) {
           ))}
         </ul>
       </section>
+      {AuthService.getRole() === 'administrador' && (
+        <section id="users">
+          <h2>Contas</h2>
+          {users.map(user => (
+            <User key={user.id} {...user} />
+          ))}
+        </section>
+      )}
     </Container>
   );
 }
