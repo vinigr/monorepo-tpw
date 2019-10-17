@@ -1,13 +1,18 @@
 import React from 'react';
 
-// import { Container } from './styles';
+import { Container, LinkArticle } from './styles';
 
-const ArticleItem = ({ article }) => (
-  <li>
-    <h3>{article.title}</h3>
-    <h4>Autores: </h4>
-    <span>{article.palavrasChave}</span>
-  </li>
+const ArticleItem = ({ id, titulo, palavrasChave }) => (
+  <Container>
+    <LinkArticle to={`/article/${id}`}>
+      <h3>{titulo}</h3>
+      <div>
+        {palavrasChave.map(palavra => (
+          <span key={palavra}>{palavra};</span>
+        ))}
+      </div>
+    </LinkArticle>
+  </Container>
 );
 
 export default ArticleItem;
