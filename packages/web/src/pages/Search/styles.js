@@ -36,6 +36,7 @@ export const Container = styled.div`
 
   section#results {
     width: 70%;
+    margin-right: 10px;
   }
 
   section#last {

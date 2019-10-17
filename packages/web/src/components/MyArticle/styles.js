@@ -15,12 +15,14 @@ export const Container = styled.li`
 
   h3 {
     color: #3e3e3e;
+    width: 80%;
   }
 
   #status {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    width: 30%;
 
     span:first-child {
       font-weight: 600;

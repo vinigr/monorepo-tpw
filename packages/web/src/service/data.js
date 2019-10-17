@@ -29,8 +29,8 @@ export const articles = [
       Donec tincidunt eu urna ac pellentesque.`,
     caminho:
       'https://americalatina.dint.fgv.br/sites/americalatina.dint.fgv.br/files/teste33.pdf',
-    editavel: false,
-    publicado: true,
+    editavel: true,
+    publicado: false,
   },
   {
     id: 'eratpurus',
@@ -56,5 +56,25 @@ export const articles = [
       'https://americalatina.dint.fgv.br/sites/americalatina.dint.fgv.br/files/teste33.pdf',
     editavel: false,
     publicado: true,
+  },
+  {
+    id: 'kjfhnsdjfds',
+    titulo: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    palavrasChave: ['sfdsfds'],
+    autores: [
+      { id: '5da651adf111b311886efa93', nome: 'Estevan Ferreira Martins' },
+    ],
+    publicado: true,
+    editavel: false,
+  },
+  {
+    id: 'kjdjfds',
+    titulo: 'Aenean cursus sem non metus tincidunt consectetur.',
+    autores: [
+      { id: '5da651adf111b311886efa93', nome: 'Danilo Goncalves Barros' },
+    ],
+    palavrasChave: ['dsfsd'],
+    publicado: false,
+    editavel: true,
   },
 ];

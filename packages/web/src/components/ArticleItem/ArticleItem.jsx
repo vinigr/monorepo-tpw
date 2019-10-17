@@ -7,9 +7,8 @@ const ArticleItem = ({ id, titulo, palavrasChave }) => (
     <LinkArticle to={`/article/${id}`}>
       <h3>{titulo}</h3>
       <div>
-        {palavrasChave.map(palavra => (
-          <span key={palavra}>{palavra};</span>
-        ))}
+        {palavrasChave &&
+          palavrasChave.map(palavra => <span key={palavra}>{palavra};</span>)}
       </div>
     </LinkArticle>
   </Container>

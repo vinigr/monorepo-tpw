@@ -6,22 +6,9 @@ import User from '../../components/User/User.jsx';
 
 import logo from '../../assets/images/rede-ftc.png';
 
-import AuthService from '../../service/auth';
+import { articles } from '../../service/data';
 
-const articles = [
-  {
-    id: 'kjfhnsdjfds',
-    titulo: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    publicado: true,
-    editavel: false,
-  },
-  {
-    id: 'kjdjfds',
-    titulo: 'Aenean cursus sem non metus tincidunt consectetur.',
-    publicado: false,
-    editavel: true,
-  },
-];
+import AuthService from '../../service/auth';
 
 const users = [
   {

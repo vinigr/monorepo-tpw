@@ -12,37 +12,12 @@ import {
 } from './styles';
 import AuthService from '../../service/auth';
 
+import { articles } from '../../service/data';
+
 import logo from '../../assets/images/rede-ftc.png';
 
-const article = {
-  id: 'ikfdjsoijfsd',
-  titulo: 'Gamificação como estratégia de aprendizagem',
-  orientador: { id: '111', nome: 'José Barros Castro' },
-  autores: [
-    { id: '5da651adf111b311886efa93', nome: 'Estevan Ferreira Martins' },
-    { id: 'tpw2', nome: 'Alex Barros Lima' },
-  ],
-  outrosAutores: ['Eduarda Cunha Barbosa'],
-  palavrasChave: ['Gamificação', 'Tecnologia', 'Aprendizagem'],
-  resumo: `Phasellus vel viverra neque. Cras vehicula tortor laoreet, 
-    eleifend erat quis, vehicula ante. In lectus eros, eleifend 
-    sed ligula at, placerat convallis leo. Quisque tristique molestie 
-    urna, a gravida magna finibus at. Ut tincidunt orci urna, sit amet 
-    eleifend tortor dapibus in. Praesent scelerisque tortor lacus, id 
-    placerat nibh egestas ut. Morbi aliquam vestibulum arcu nec iaculis. 
-    Proin convallis magna lacus, id consectetur tortor egestas sed. Nam 
-    gravida sagittis nibh at vestibulum. Quisque scelerisque ipsum eu 
-    augue aliquet convallis. Maecenas tellus nunc, dignissim nec dolor ac, 
-    imperdiet ultrices nulla. Nullam gravida mauris ac pellentesque rutrum. 
-    Donec tincidunt eu urna ac pellentesque.`,
-  caminho:
-    'https://americalatina.dint.fgv.br/sites/americalatina.dint.fgv.br/files/teste33.pdf',
-  editavel: false,
-  publicado: true,
-};
-
-export default function Article() {
-  const [name, setName] = useState('');
+export default function Article(props) {
+  const [titulo, setTitulo] = useState('');
   const [archive, setArchive] = useState();
   const [summary, setSummary] = useState('');
   const [keywords, setKeywords] = useState([]);
@@ -51,20 +26,37 @@ export default function Article() {
   const [edit, setEdit] = useState(false);
   const [publicado, setPublicado] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [article, setArticle] = useState();
 
   useEffect(() => {
     const id = AuthService.getId();
+    setArticle(
+      articles.filter(article => article.id === props.match.params.id)[0]
+    );
 
-    if (article.autores.filter(autor => autor.id === id).length > 0) {
-      setIsAuthor(true);
+    if (article) {
+      if (article.autores.filter(autor => autor.id === id).length > 0) {
+        setIsAuthor(true);
+      }
+
+      if (article.orientador) {
+        if (article.orientador.id === id) {
+          setIsOrientador(true);
+        }
+      }
+
+      setTitulo(article.titulo);
+      setKeywords(article.palavrasChave);
+      if (article.resumo) {
+        setSummary(article.resumo.replace(/\s{2,}/g, ' '));
+      }
+      if (article.caminho) {
+        setArchive(article.caminho);
+      }
+
+      setLoading(false);
     }
-
-    if (article.orientador.id === id) {
-      setIsOrientador(true);
-    }
-
-    setLoading(false);
-  }, [isAuthor]);
+  }, [article, props.match.params.id]);
 
   function addTags(e) {
     e.preventDefault();
@@ -119,9 +111,8 @@ export default function Article() {
         </div>
         <div id="palavras">
           <h4>Palavras-chave:</h4>
-          {palavrasChave.map(palavra => (
-            <h5 key={palavra}>{palavra};</h5>
-          ))}
+          {palavrasChave &&
+            palavrasChave.map(palavra => <h5 key={palavra}>{palavra};</h5>)}
         </div>
         <a href={caminho} target="_blank" rel="noopener noreferrer">
           <IconPdf />
@@ -144,8 +135,8 @@ export default function Article() {
           <input
             className="text"
             type="text"
-            value={name}
-            onChange={e => setName(e.target.value)}
+            value={titulo}
+            onChange={e => setTitulo(e.target.value)}
           />
           <label>Qual as palavras-chave?</label>
           <div className="tags-input">
