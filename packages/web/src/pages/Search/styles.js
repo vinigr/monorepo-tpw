@@ -28,8 +28,17 @@ export const Container = styled.div`
     }
   }
 
+  section#articles {
+    width: calc(100% - 20px);
+    display: flex;
+    padding: 10px;
+  }
+
   section#results {
     width: 70%;
-    padding: 10px;
+  }
+
+  section#last {
+    width: 25%;
   }
 `;
