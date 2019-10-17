@@ -4,6 +4,7 @@ import Login from './Login/Login.jsx';
 import Cadastro from './Cadastro/Cadastro.jsx';
 import Search from './Search/Search.jsx';
 import Send from './Send/Send.jsx';
+import Article from './Article/Article.jsx';
 import PageNotFound from './PageNotFound/PageNotFound.jsx';
 
-export { Account, Home, Login, Cadastro, Search, Send, PageNotFound };
+export { Account, Home, Login, Cadastro, Search, Send, Article, PageNotFound };

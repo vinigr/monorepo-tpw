@@ -7,6 +7,7 @@ import {
   Cadastro,
   Search,
   Send,
+  Article,
   PageNotFound,
 } from './pages';
 import GlobalStyle from './styles/global';
@@ -54,6 +55,7 @@ function App() {
         />
         <Route exact path="/search" component={Search} />
         <Route exact path="/send" component={Send} />
+        <Route exact path="/article/:id" component={Article} />
         <PrivateRoute
           exact
           path="/account"
