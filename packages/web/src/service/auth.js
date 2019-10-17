@@ -41,6 +41,14 @@ const AuthService = {
     return decode(this.getToken());
   },
 
+  getId() {
+    let id;
+    if (this.getProfile()) {
+      id = this.getProfile().id;
+    }
+    return id;
+  },
+
   getName() {
     let name;
     if (localStorage.getItem(TOKEN_KEY)) {
@@ -51,7 +59,7 @@ const AuthService = {
 
   getRole() {
     let role;
-    const user = JSON.parse(localStorage.getItem(TOKEN_KEY));
+    const user = this.getProfile();
     if (localStorage.getItem(TOKEN_KEY)) {
       if (user.administrador) {
         return (role = 'administrador');
@@ -61,6 +69,7 @@ const AuthService = {
         return (role = 'aluno');
       }
     }
+
     return role;
   },
 };
