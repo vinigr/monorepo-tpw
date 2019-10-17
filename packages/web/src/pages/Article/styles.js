@@ -10,6 +10,22 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
 
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: calc(100vw - 40px);
+    display: flex;
+    justify-content: space-between;
+    height: 60px;
+    padding: 10px 20px;
+
+    img {
+      width: 100px;
+      margin-bottom: 24px;
+    }
+  }
+
   form {
     display: flex;
     flex-direction: column;
@@ -151,6 +167,83 @@ export const Container = styled.div`
         cursor: pointer;
       }
     }
+  }
+
+  main {
+    width: 70%;
+
+    h1 {
+      margin-bottom: 14px;
+    }
+
+    #autores {
+      margin-bottom: 10px;
+
+      h2 {
+        font-size: 18px;
+      }
+    }
+
+    #orientador {
+      margin-bottom: 12px;
+
+      h4 {
+        font-weight: 500;
+      }
+    }
+
+    #resumo {
+      margin-bottom: 10px;
+
+      p {
+        text-align: justify;
+      }
+    }
+
+    #palavras {
+      display: flex;
+      margin-bottom: 14px;
+
+      h4 {
+        margin-right: 6px;
+      }
+
+      h5 {
+        font-size: 16px;
+        font-weight: 400;
+        margin-right: 4px;
+      }
+    }
+
+    a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      padding: 10px;
+      border-radius: 2px;
+      color: #000;
+      background-color: #e8e8e8;
+      width: 160px;
+
+      &:hover {
+        text-decoration: underline;
+      }
+
+      span {
+        margin-left: 8px;
+      }
+    }
+  }
+
+  #orientador-options {
+    display: flex;
+    justify-content: space-between;
+    width: 400px;
+    margin-top: 16px;
+    /* div{
+      display
+    } */
   }
 `;
 
