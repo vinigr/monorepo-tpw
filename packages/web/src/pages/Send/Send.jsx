@@ -7,7 +7,7 @@ import { users } from '../../service/data';
 
 const filterUsers = inputValue => {
   return users.filter(i =>
-    i.nome.toLowerCase().includes(inputValue.toLowerCase())
+    i.label.toLowerCase().includes(inputValue.toLowerCase())
   );
 };
 
@@ -19,6 +19,7 @@ const promiseOptions = inputValue =>
   });
 
 export default function Send() {
+  const [authors, setAuthors] = useState('');
   const [othersAuthors, setOthersAuthors] = useState('');
 
   return (
@@ -29,6 +30,8 @@ export default function Send() {
         <AsyncSelect
           className="select"
           isMulti
+          value={authors}
+          onChange={e => setAuthors(e)}
           cacheOptions
           loadOptions={promiseOptions}
           placeholder="Selecione"
