@@ -29,18 +29,24 @@ export default function Article(props) {
   const [article, setArticle] = useState();
 
   useEffect(() => {
-    const id = AuthService.getId();
+    // const id = AuthService.getId();
     setArticle(
       articles.filter(article => article.id === props.match.params.id)[0]
     );
 
     if (article) {
-      if (article.autores.filter(autor => autor.id === id).length > 0) {
+      // if (article.autores.filter(autor => autor.id === id).length > 0) {
+      //   setIsAuthor(true);
+      // }
+      if (article.id === 'ikfdjsoijfsd') {
         setIsAuthor(true);
       }
 
       if (article.orientador) {
-        if (article.orientador.id === id) {
+        // if (article.orientador.id === id) {
+        //   setIsOrientador(true);
+        // }
+        if (article.id === 'kjdjfds') {
           setIsOrientador(true);
         }
       }

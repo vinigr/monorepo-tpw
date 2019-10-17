@@ -70,6 +70,7 @@ export const articles = [
   {
     id: 'kjdjfds',
     titulo: 'Aenean cursus sem non metus tincidunt consectetur.',
+    orientador: { id: '111', nome: 'Kai Dias Pereira' },
     autores: [
       { id: '5da651adf111b311886efa93', nome: 'Danilo Goncalves Barros' },
     ],

@@ -56,11 +56,12 @@ function App() {
         <Route exact path="/search" component={Search} />
         <Route exact path="/send" component={Send} />
         <Route exact path="/article/:id" component={Article} />
-        <PrivateRoute
+        {/* <PrivateRoute
           exact
           path="/account"
           component={props => <Account {...props} />}
-        />
+        /> */}
+        <Route exact path="/account" component={Account} />
         <Route
           path="*"
           component={() => <PageNotFound>Page not found</PageNotFound>}
