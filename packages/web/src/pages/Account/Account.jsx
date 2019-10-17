@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-
+import { Link } from 'react-router-dom';
 import { Container } from './styles';
 import MyArticle from '../../components/MyArticle/MyArticle.jsx';
 import User from '../../components/User/User.jsx';
+
+import logo from '../../assets/images/rede-ftc.png';
 
 import AuthService from '../../service/auth';
 
@@ -52,7 +54,12 @@ export default function Account(props) {
   return (
     <Container>
       <header>
-        <h1>Perfil</h1>
+        <div>
+          <Link to="/">
+            <img src={logo} alt="rede-ftc-logo" />
+          </Link>
+          <h1>Conta</h1>
+        </div>
         <div>
           {name && <h5>{name}</h5>}
           <button onClick={logout}>Sair</button>

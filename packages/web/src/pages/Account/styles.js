@@ -22,6 +22,11 @@ export const Container = styled.div`
       align-items: center;
     }
 
+    img {
+      width: 100px;
+      margin-right: 20px;
+    }
+
     h5 {
       font-size: 16px;
       margin-right: 6px;
