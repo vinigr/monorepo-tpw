@@ -7,6 +7,7 @@ import { LinkLogin } from '../Home/styles';
 import ArticleItem from '../../components/ArticleItem/ArticleItem.jsx';
 import MenuAvatar from '../../components/MenuAvatar/MenuAvatar';
 import Avatar from '../../components/Avatar/Avatar';
+import LatestArticles from '../../components/LatestArticles/LatestArticles';
 
 import logo from '../../assets/images/rede-ftc.png';
 
@@ -97,7 +98,10 @@ export default function Search(props) {
             <span>Carregando...</span>
           )}
         </section>
-        <section>Últimas postagens</section>
+        <section id="last">
+          <h2>Últimas postagens</h2>
+          <LatestArticles />
+        </section>
       </section>
       <MenuAvatar
         anchorEl={anchorEl}

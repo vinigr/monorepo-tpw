@@ -40,6 +40,10 @@ export const Container = styled.div`
   }
 
   section#last {
-    width: 25%;
+    width: 30%;
+
+    h2 {
+      margin-bottom: 8px;
+    }
   }
 `;
