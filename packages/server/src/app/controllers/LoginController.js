@@ -21,7 +21,7 @@ class LoginController {
 
     const { login, senha } = req.body;
 
-    const usuario = await Usuario.findOne({ login: login.toLowerCase });
+    const usuario = await Usuario.findOne({ login: login.toLowerCase() });
 
     if (!usuario) {
       return res.status(401).json({ error: 'Usuário não encontrado' });
