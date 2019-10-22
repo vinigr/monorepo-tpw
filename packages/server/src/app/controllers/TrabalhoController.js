@@ -8,11 +8,12 @@ class TrabalhoController {
       pesquisa: yup.string().required(),
     });
 
-    if (!(await schema.isValid(req.body))) {
+    if (!(await schema.isValid(req.params))) {
       return res.status(400).json({ error: 'Entrada inválida' });
     }
 
-    const { pesquisa } = req.body;
+    const { pesquisa } = req.params;
+
     const trabalhos = await Trabalho.find({
       $or: [
         { titulo: new RegExp(pesquisa, 'i') },
@@ -21,6 +22,31 @@ class TrabalhoController {
       ],
     });
     return res.json(trabalhos);
+  }
+
+  async store(req, res) {
+    const { authors, othersAuthors } = req.body;
+
+    try {
+      await Trabalho.create({
+        autores: authors,
+        outrosAutores: othersAuthors,
+      });
+      return res.send();
+    } catch (error) {
+      return res.status(400).send(error);
+    }
+  }
+
+  async articlesUser(req, res) {
+    try {
+      const articles = await Trabalho.find({
+        autores: { $in: req.idUsuario },
+      });
+      return res.json(articles);
+    } catch (err) {
+      return res.send(400).json(err);
+    }
   }
 }
 
