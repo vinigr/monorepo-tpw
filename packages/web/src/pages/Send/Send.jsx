@@ -1,26 +1,40 @@
 import React, { useState } from 'react';
 import AsyncSelect from 'react-select/async';
+import _ from 'lodash';
 
 import { Container } from './styles';
 
-import { users } from '../../service/data';
-
-const filterUsers = inputValue => {
-  return users.filter(i =>
-    i.label.toLowerCase().includes(inputValue.toLowerCase())
-  );
-};
-
-const promiseOptions = inputValue =>
-  new Promise(resolve => {
-    setTimeout(() => {
-      resolve(filterUsers(inputValue));
-    }, 1000);
-  });
+import api from '../../service/api';
 
 export default function Send() {
-  const [authors, setAuthors] = useState('');
+  const [authors, setAuthors] = useState([]);
   const [othersAuthors, setOthersAuthors] = useState('');
+
+  async function findUsers(newValue) {
+    const inputValue = newValue.replace(/\W/g, '');
+    const { data } = await api.get(`/userFind/${inputValue}`);
+    return data.users;
+  }
+
+  async function createArticle(e) {
+    e.preventDefault();
+    if (authors.length === 0 && othersAuthors === '') {
+      return;
+    }
+
+    const authorsId = authors.map(author => author._id);
+
+    try {
+      await api.post('/artigo/create', {
+        authors: authorsId,
+        othersAuthors,
+      });
+      setAuthors([]);
+      setOthersAuthors('');
+    } catch ({ response }) {
+      console.log(response);
+    }
+  }
 
   return (
     <Container>
@@ -30,11 +44,13 @@ export default function Send() {
         <AsyncSelect
           className="select"
           isMulti
-          value={authors}
-          onChange={e => setAuthors(e)}
           cacheOptions
-          loadOptions={promiseOptions}
+          onChange={e => setAuthors(e)}
+          getOptionValue={option => option._id}
+          getOptionLabel={option => option.nome}
+          loadOptions={_.debounce(findUsers, 1000)}
           placeholder="Selecione"
+          isSearchable
         />
         <label>Outros autores</label>
         <input
@@ -43,7 +59,7 @@ export default function Send() {
           value={othersAuthors}
           onChange={e => setOthersAuthors(e.target.value)}
         />
-        <button>Concluir</button>
+        <button onClick={createArticle}>Concluir</button>
       </form>
     </Container>
   );
