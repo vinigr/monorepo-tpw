@@ -8,35 +8,22 @@ import logo from '../../assets/images/rede-ftc.png';
 
 import { articles } from '../../service/data';
 
-// import AuthService from '../../service/auth';
-
-const users = [
-  {
-    id: '1',
-    name: 'Stephanie G. Powell',
-    professor: true,
-  },
-  {
-    id: '2',
-    name: 'Kauã Costa Ferreira',
-    professor: false,
-  },
-];
+import AuthService from '../../service/auth';
 
 export default function Account(props) {
   const [name, setName] = useState();
   // const [articles, setArticles] = useState();
 
-  // useEffect(() => {
-  //   if (AuthService.loggedIn()) {
-  //     setName(AuthService.getName());
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (AuthService.loggedIn()) {
+      setName(AuthService.getName());
+    }
+  }, []);
 
-  // function logout() {
-  //   AuthService.logout(props);
-  //   props.history.go();
-  // }
+  function logout() {
+    AuthService.logout(props);
+    props.history.go();
+  }
 
   return (
     <Container>
@@ -49,7 +36,7 @@ export default function Account(props) {
         </div>
         <div>
           {name && <h5>{name}</h5>}
-          <button onClick={() => {}}>Sair</button>
+          <button onClick={logout}>Sair</button>
         </div>
       </header>
       <section id="articles">
@@ -60,14 +47,14 @@ export default function Account(props) {
           ))}
         </ul>
       </section>
-      {/* {AuthService.getRole() === 'administrador' && ( */}
-      <section id="users">
-        <h2>Contas</h2>
-        {users.map(user => (
-          <User key={user.id} {...user} />
-        ))}
-      </section>
-      {/* )} */}
+      {/* {AuthService.getRole() === 'administrador' && (
+        <section id="users">
+          <h2>Contas</h2>
+          {users.map(user => (
+            <User key={user.id} {...user} />
+          ))}
+        </section>
+      )} */}
     </Container>
   );
 }
