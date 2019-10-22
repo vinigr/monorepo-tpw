@@ -48,6 +48,29 @@ class TrabalhoController {
       return res.send(400).json(err);
     }
   }
+
+  async latestArticles(req, res) {
+    try {
+      const articles = await Trabalho.find({})
+        .sort({ created_at: -1 })
+        .limit(5)
+        .populate('autores', 'nome');
+      return res.json(articles);
+    } catch (err) {
+      return res.send(400).json(err);
+    }
+  }
+
+  async getArticle(req, res) {
+    const { id } = req.params;
+
+    try {
+      const article = await Trabalho.findOne({ _id: id });
+      return res.json(article);
+    } catch (err) {
+      return res.send(400).json(err);
+    }
+  }
 }
 
 module.exports = new TrabalhoController();
