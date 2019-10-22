@@ -35,6 +35,32 @@ class UsuarioController {
       login: usuario.login,
     });
   }
+
+  async findAll(req, res) {
+    const users = await Usuario.find({}).select(
+      'id nome administrador professor'
+    );
+
+    return res.status(200).json({
+      users,
+    });
+  }
+
+  async findUserByEmail(req, res) {
+    const { email } = req.params;
+
+    if (!email) {
+      return res.status(400).json('Email não informado');
+    }
+
+    const users = await Usuario.find({
+      login: new RegExp(email, 'i'),
+    }).select('id nome');
+
+    return res.status(200).json({
+      users,
+    });
+  }
 }
 
 module.exports = new UsuarioController();
