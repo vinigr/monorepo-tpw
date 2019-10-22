@@ -3,10 +3,10 @@ const mongoose = require('mongoose');
 const TrabalhoSchema = new mongoose.Schema(
   {
     titulo: String,
-    autores: [mongoose.Schema.Types.ObjectId],
+    autores: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Usuario' }],
     outrosAutores: [String],
-    orientador: mongoose.Schema.Types.ObjectId,
-    professor: mongoose.Schema.Types.ObjectId,
+    orientador: { type: mongoose.Schema.Types.ObjectId, ref: 'Usuario' },
+    professor: { type: mongoose.Schema.Types.ObjectId, ref: 'Usuario' },
     palavrasChave: String,
     resumo: String,
     publicado: Boolean,
