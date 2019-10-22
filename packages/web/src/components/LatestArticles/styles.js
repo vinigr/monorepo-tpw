@@ -13,8 +13,9 @@ export const Container = styled.div`
 `;
 
 export const ArticleItem = styled.li`
+  margin-bottom: 8px;
   background-color: #f5f5f5;
-  padding: 6px;
+  padding: 10px;
   border-radius: 4px;
 `;
 
@@ -25,5 +26,9 @@ export const ArticleLink = styled(Link)`
   h3 {
     text-decoration: underline;
     margin-bottom: 10px;
+  }
+
+  h4 {
+    color: #373737;
   }
 `;

@@ -2,14 +2,22 @@ import React, { useState } from 'react';
 
 import { Container, ArticleItem, ArticleLink } from './styles';
 
+import api from '../../service/api';
+
 export default function LatestArticles() {
   const [loading, setLoading] = useState(true);
   const [articles, setArticles] = useState([]);
 
   useState(() => {
-    try {
-      setLoading(false);
-    } catch (err) {}
+    async function fetchData() {
+      try {
+        const { data } = await api.get('articles/latest');
+        setArticles(data);
+        setLoading(false);
+      } catch (err) {}
+    }
+
+    fetchData();
   }, []);
 
   return (
@@ -19,8 +27,8 @@ export default function LatestArticles() {
       ) : (
         <ul>
           {articles.map(article => (
-            <ArticleItem key={article.id}>
-              <ArticleLink to={`article/${article.id}`}>
+            <ArticleItem key={article._id}>
+              <ArticleLink to={`article/${article._id}`}>
                 <h3>{article.titulo}</h3>
                 <div id="authors">
                   {article.autores &&
