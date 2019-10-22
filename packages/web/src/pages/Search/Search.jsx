@@ -14,11 +14,10 @@ import logo from '../../assets/images/rede-ftc.png';
 import api from '../../service/api';
 
 import AuthService from '../../service/auth';
-import { articles } from '../../service/data';
 
 export default function Search(props) {
   const [text, setText] = useState('');
-  // const [articles, setArticles] = useState([]);
+  const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [name, setName] = useState();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -38,20 +37,20 @@ export default function Search(props) {
       return;
     }
 
-    // async function fetchData() {
-    //   setLoading(true);
-    //   try {
-    //     const { data } = await api.post('/trabalho', {
-    //       pesquisa: article,
-    //     });
-    //     setArticles(data.trabalhos);
-    setLoading(false);
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // }
+    async function fetchData() {
+      setLoading(true);
+      try {
+        const { data } = await api.post(`/trabalho/${article}`, {
+          pesquisa: article,
+        });
+        setArticles(data.trabalhos);
+        setLoading(false);
+      } catch (err) {
+        console.log(err);
+      }
+    }
 
-    // fetchData();
+    fetchData();
   }, [props.location.search]);
 
   function keyPress(e) {
