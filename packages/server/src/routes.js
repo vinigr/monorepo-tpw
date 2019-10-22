@@ -9,6 +9,7 @@ const UsuarioController = require('./app/controllers/UsuarioController');
 const ArquivoController = require('./app/controllers/ArquivoController');
 
 const authMiddleware = require('./app/middlewares/auth');
+const jwtVerify = require('./app/middlewares/verifyJwt');
 
 const multerConfig = require('./config/multer');
 
@@ -20,15 +21,32 @@ router.get('/', (_, res) => {
 
 router.post('/login', LoginController.store);
 
-router.get('/trabalho', TrabalhoController.index);
+router.get('/trabalho/:pesquisa', TrabalhoController.index);
 
 router.post('/criarUsuario', UsuarioController.store);
 
-router.use(authMiddleware);
+// router.use(authMiddleware);
+
+router.get('/articles', [authMiddleware], TrabalhoController.articlesUser);
+
+router.get(
+  '/users',
+  [authMiddleware, jwtVerify.isAdmin],
+  UsuarioController.findAll
+);
+
+router.get(
+  '/userFind/:email',
+  [authMiddleware],
+  UsuarioController.findUserByEmail
+);
+
+router.post('/artigo/create', [authMiddleware], TrabalhoController.store);
 
 router.post(
   '/arquivo/:idTrabalho',
   upload.single('file'),
+  [authMiddleware],
   ArquivoController.store
 );
 
