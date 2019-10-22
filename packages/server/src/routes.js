@@ -25,6 +25,10 @@ router.get('/trabalho/:pesquisa', TrabalhoController.index);
 
 router.post('/criarUsuario', UsuarioController.store);
 
+router.get('/articles/latest', TrabalhoController.latestArticles);
+
+router.get('/article/:id', TrabalhoController.getArticle);
+
 // router.use(authMiddleware);
 
 router.get('/articles', [authMiddleware], TrabalhoController.articlesUser);
