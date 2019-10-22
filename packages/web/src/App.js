@@ -44,6 +44,21 @@ function App() {
     />
   );
 
+  const TeacherRoute = ({ component: Component, ...rest }) => (
+    <Route
+      {...rest}
+      render={props =>
+        AuthService.loggedIn() && AuthService.getRole() !== 'aluno' ? (
+          <Component {...props} />
+        ) : (
+          <Redirect
+            to={{ pathname: '/login', state: { from: props.location } }}
+          />
+        )
+      }
+    />
+  );
+
   return (
     <BrowserRouter>
       <Switch>
@@ -54,8 +69,12 @@ function App() {
           component={props => <Cadastro {...props} />}
         />
         <Route exact path="/search" component={Search} />
-        <Route exact path="/send" component={Send} />
         <Route exact path="/article/:id" component={Article} />
+        <TeacherRoute
+          exact
+          path="/send"
+          component={props => <Send {...props} />}
+        />
         <PrivateRoute
           exact
           path="/account"
