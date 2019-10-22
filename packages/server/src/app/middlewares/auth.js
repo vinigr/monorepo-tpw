@@ -10,9 +10,8 @@ module.exports = async (req, res, next) => {
     return res.status(401).json({ error: 'Token não fornecido' });
   }
 
-  const [, token] = authHeader.split(' ');
   try {
-    const decoded = await promisify(jwt.verify)(token, authConfig.secret);
+    const decoded = await promisify(jwt.verify)(authHeader, authConfig.secret);
     req.idUsuario = decoded.id;
     req.professor = decoded.professor;
     req.administrador = decoded.administrador;
