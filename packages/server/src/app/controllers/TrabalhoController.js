@@ -152,6 +152,10 @@ class TrabalhoController {
       });
     }
 
+    if (article.publicado === true){
+      return res.status(400).json({ error: 'Cannot change the editable status of a published article' });
+    }
+
     const articleUpdated = await Trabalho.updateOne(
       { _id: id },
       { editavel: !article.editavel }
@@ -175,9 +179,25 @@ class TrabalhoController {
       });
     }
 
+    const published = article.publicado;
+    const editable = article.editavel;
+
+    if((!published) && editable){
+      const articleUpdated = await Trabalho.updateOne(
+        { _id: id },
+        {
+          publicado: !published,
+          editavel: !editable,
+        }
+
+      return res.json(articleUpdated);
+    }
+
     const articleUpdated = await Trabalho.updateOne(
       { _id: id },
-      { publicado: !article.publicado }
+      {
+        publicado: !published,
+      }
     );
 
     return res.json(articleUpdated);
