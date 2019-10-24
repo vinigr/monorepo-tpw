@@ -36,7 +36,7 @@ class UsuarioController {
     });
   }
 
-  async findAll(req, res) {
+  async index(_, res) {
     const users = await Usuario.find({}).select(
       'id nome administrador professor'
     );

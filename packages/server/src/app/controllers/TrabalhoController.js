@@ -25,12 +25,23 @@ class TrabalhoController {
   }
 
   async store(req, res) {
+    const schema = yup.object().shape({
+      authors: yup.string().required(),
+      othersAuthors: yup.string(),
+    });
+
+    if (!(await schema.isValid(req.params))) {
+      return res.status(400).json({ error: 'Entrada inválida' });
+    }
+
     const { authors, othersAuthors } = req.body;
 
     try {
       await Trabalho.create({
         autores: authors,
         outrosAutores: othersAuthors,
+        editavel: true,
+        publicado: false,
       });
       return res.send();
     } catch (error) {
@@ -44,12 +55,12 @@ class TrabalhoController {
         autores: { $in: req.idUsuario },
       });
       return res.json(articles);
-    } catch (err) {
-      return res.send(400).json(err);
+    } catch (error) {
+      return res.send(400).json(error);
     }
   }
 
-  async latestArticles(req, res) {
+  async latestArticles(_, res) {
     try {
       const articles = await Trabalho.find({})
         .sort({ created_at: -1 })
@@ -74,6 +85,7 @@ class TrabalhoController {
       return res.send(400).json(err);
     }
   }
+
 }
 
 module.exports = new TrabalhoController();

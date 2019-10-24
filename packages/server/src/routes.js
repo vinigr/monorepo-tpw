@@ -36,7 +36,7 @@ router.get('/articles', [authMiddleware], TrabalhoController.articlesUser);
 router.get(
   '/users',
   [authMiddleware, jwtVerify.isAdmin],
-  UsuarioController.findAll
+  UsuarioController.index
 );
 
 router.get(
