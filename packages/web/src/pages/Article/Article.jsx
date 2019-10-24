@@ -10,49 +10,57 @@ import {
   IconCancel,
   CancelKeyword,
 } from './styles';
+
 import AuthService from '../../service/auth';
 
-import { articles } from '../../service/data';
+import api from '../../service/api';
 
 import logo from '../../assets/images/rede-ftc.png';
 
 export default function Article(props) {
-  const [titulo, setTitulo] = useState('');
+  const [title, setTitle] = useState('');
   const [archive, setArchive] = useState();
   const [summary, setSummary] = useState('');
   const [keywords, setKeywords] = useState([]);
   const [isAuthor, setIsAuthor] = useState(false);
   const [isOrientador, setIsOrientador] = useState(false);
+  const [isProfessor, setIsProfessor] = useState(false);
   const [edit, setEdit] = useState(false);
-  const [publicado, setPublicado] = useState(false);
+  const [published, setPublished] = useState(false);
   const [loading, setLoading] = useState(true);
   const [article, setArticle] = useState();
 
-  useEffect(() => {
-    // const id = AuthService.getId();
-    setArticle(
-      articles.filter(article => article.id === props.match.params.id)[0]
-    );
+  const id = AuthService.getId();
+  const idArticle = props.match.params.id;
 
+  useEffect(() => {
     if (article) {
-      // if (article.autores.filter(autor => autor.id === id).length > 0) {
-      //   setIsAuthor(true);
-      // }
-      if (article.id === 'ikfdjsoijfsd') {
-        setIsAuthor(true);
+      const { autores } = article;
+
+      if (autores) {
+        if (autores.filter(autor => autor._id === id).length > 0) {
+          setIsAuthor(true);
+        }
       }
 
       if (article.orientador) {
-        // if (article.orientador.id === id) {
-        //   setIsOrientador(true);
-        // }
-        if (article.id === 'kjdjfds') {
+        if (article.orientador === id) {
           setIsOrientador(true);
         }
       }
 
-      setTitulo(article.titulo);
-      setKeywords(article.palavrasChave);
+      if (article.professor === id) {
+        setIsProfessor(true);
+      }
+
+      if (article.titulo) {
+        setTitle(article.titulo);
+      }
+
+      if (article.palavrasChave) {
+        setKeywords(article.palavrasChave);
+      }
+
       if (article.resumo) {
         setSummary(article.resumo.replace(/\s{2,}/g, ' '));
       }
@@ -60,9 +68,22 @@ export default function Article(props) {
         setArchive(article.caminho);
       }
 
-      setLoading(false);
+      setEdit(article.editavel);
+      setPublished(article.publicado);
     }
-  }, [article, props.match.params.id]);
+  }, [article, id]);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const { data } = await api.get(`article/${idArticle}`);
+        setArticle(data);
+        setLoading(false);
+      } catch (error) {}
+    }
+
+    fetchData();
+  }, [idArticle]);
 
   function addTags(e) {
     e.preventDefault();
@@ -76,16 +97,64 @@ export default function Article(props) {
     setKeywords([...keywords.filter((_, index) => index !== indexToRemove)]);
   }
 
-  const { getRootProps, getInputProps } = useDropzone({
-    accept: 'application/pdf',
-    onDropAccepted: acceptedFile => {
-      setArchive(
-        Object.assign(acceptedFile[0], {
-          preview: URL.createObjectURL(acceptedFile[0]),
-        })
-      );
+  const { getRootProps, getInputProps } = useDropzone(
+    {
+      accept: 'application/pdf',
+      onDropAccepted: acceptedFile => {
+        setArchive(
+          Object.assign(acceptedFile[0], {
+            preview: URL.createObjectURL(acceptedFile[0]),
+          })
+        );
+      },
     },
-  });
+    sendArchive()
+  );
+
+  async function sendArchive() {
+    if (archive) {
+      const formData = new FormData();
+      formData.append('file', archive);
+      try {
+        const data = await api.post(`arquivo/${idArticle}`, formData);
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+
+  async function saveChanges(e) {
+    e.preventDefault();
+    try {
+      const data = await api.put(`/article/${idArticle}`, {
+        title,
+        summary,
+        keywords,
+      });
+      console.log(data);
+    } catch (error) {
+      console.log(error.response);
+    }
+  }
+
+  async function switchEdit() {
+    try {
+      const data = await api.put(`/article/editable/${idArticle}`);
+      setEdit(!edit);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function switchPublish() {
+    try {
+      const data = await api.put(`/article/published/${idArticle}`);
+      setPublished(!published);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   function renderContent({
     titulo,
@@ -101,7 +170,7 @@ export default function Article(props) {
         <h1>{titulo}</h1>
         <div id="autores">
           {autores.map(autor => (
-            <h2 key={autor.id}>{autor.nome}</h2>
+            <h2 key={autor._id}>{autor.nome}</h2>
           ))}
           {outrosAutores &&
             outrosAutores.map(autor => <h2 key={autor}>{autor}</h2>)}
@@ -111,19 +180,26 @@ export default function Article(props) {
             <h3>Professor orientador: </h3> <h4>{orientador.nome}</h4>
           </div>
         )}
-        <div id="resumo">
-          <h3>Resumo</h3>
-          <p>{resumo}</p>
-        </div>
-        <div id="palavras">
-          <h4>Palavras-chave:</h4>
-          {palavrasChave &&
-            palavrasChave.map(palavra => <h5 key={palavra}>{palavra};</h5>)}
-        </div>
-        <a href={caminho} target="_blank" rel="noopener noreferrer">
-          <IconPdf />
-          <span>Acesso ao artigo</span>
-        </a>
+        {resumo && (
+          <div id="resumo">
+            <h3>Resumo</h3>
+            <p>{resumo}</p>
+          </div>
+        )}
+        {palavrasChave.length > 0 && (
+          <div id="palavras">
+            <h4>Palavras-chave:</h4>
+            {palavrasChave.map(palavra => (
+              <h5 key={palavra}>{palavra};</h5>
+            ))}
+          </div>
+        )}
+        {archive && (
+          <a href={caminho} target="_blank" rel="noopener noreferrer">
+            <IconPdf />
+            <span>Acesso ao artigo</span>
+          </a>
+        )}
       </main>
     );
   }
@@ -135,14 +211,16 @@ export default function Article(props) {
           <img src={logo} alt="rede-ftc-logo" />
         </Link>
       </header>
-      {loading ? null : isOrientador || (isAuthor && article.editavel) ? (
-        <form>
+      {loading ? null : isOrientador ||
+        isProfessor ||
+        (isAuthor && article.editavel) ? (
+        <form onKeyDown={e => e.keyCode === 13 && e.preventDefault()}>
           <label>Qual o nome do artigo?</label>
           <input
             className="text"
             type="text"
-            value={titulo}
-            onChange={e => setTitulo(e.target.value)}
+            value={title}
+            onChange={e => setTitle(e.target.value)}
           />
           <label>Qual as palavras-chave?</label>
           <div className="tags-input">
@@ -169,8 +247,14 @@ export default function Article(props) {
           />
           {archive ? (
             <div id="pdf">
-              <IconPdf />
-              <span>{archive.name}</span>
+              <a
+                href={archive.preview}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <IconPdf />
+                <span>{archive.name}</span>
+              </a>
               <IconCancel onClick={() => setArchive(null)} />
             </div>
           ) : (
@@ -180,9 +264,10 @@ export default function Article(props) {
               <p>Arraste um arquivo ou clique aqui</p>
             </div>
           )}
+          <button onClick={saveChanges}>Salvar alterações</button>
         </form>
       ) : (
-        renderContent(article)
+        (published || (isAuthor && !article.editavel)) && renderContent(article)
       )}
       {isOrientador && (
         <div id="orientador-options">
@@ -190,18 +275,18 @@ export default function Article(props) {
             <h4>Permitir edição</h4>
             <Switch
               checked={edit}
-              onChange={() => setEdit(!edit)}
+              onChange={switchEdit}
               value="edit"
-              color="primary"
+              color="secondary"
               inputProps={{ 'aria-label': 'primary checkbox' }}
             />
           </div>
           <div>
             <h4>Publicado</h4>
             <Switch
-              checked={publicado}
-              onChange={() => setPublicado(!publicado)}
-              value="publicado"
+              checked={published}
+              onChange={switchPublish}
+              value="published"
               color="primary"
               inputProps={{ 'aria-label': 'primary checkbox' }}
             />

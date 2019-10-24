@@ -80,10 +80,16 @@ export const Container = styled.div`
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 20px auto 0;
+      margin: 20px auto;
 
-      span {
-        margin: 0 8px;
+      a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        span {
+          margin: 0 8px;
+        }
       }
     }
 
@@ -228,6 +234,7 @@ export const Container = styled.div`
 
       &:hover {
         text-decoration: underline;
+        cursor: pointer;
       }
 
       span {
