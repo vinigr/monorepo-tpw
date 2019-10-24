@@ -18,6 +18,16 @@ export const Container = styled.li`
     width: 80%;
   }
 
+  #authors {
+    display: flex;
+
+    h4 {
+      margin-right: 4px;
+      color: #4e4e4e;
+      font-weight: 400;
+    }
+  }
+
   #status {
     display: flex;
     flex-direction: column;

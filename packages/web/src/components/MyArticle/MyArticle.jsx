@@ -2,13 +2,25 @@ import React from 'react';
 
 import { Container, LinkArticle, Check, CancelIcon } from './styles';
 
-export default function MyArticle({ id, titulo, publicado, editavel }) {
+export default function MyArticle({
+  _id,
+  titulo,
+  autores,
+  publicado,
+  editavel,
+}) {
   return (
     <Container>
-      <LinkArticle to={`/article/${id}`}>
+      <LinkArticle to={`/article/${_id}`}>
         <div>
-          <h3>{titulo}</h3>
-          <div></div>
+          <h3>{titulo ? titulo : '---'}</h3>
+          {autores.length > 0 && (
+            <div id="keywords">
+              {autores.map(autor => (
+                <h4 key={autor._id}>{autor.nome};</h4>
+              ))}
+            </div>
+          )}
         </div>
         <div id="status">
           <div className="publicado">
