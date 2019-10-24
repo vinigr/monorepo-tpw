@@ -36,8 +36,8 @@ class UsuarioController {
     });
   }
 
-  async index(_, res) {
-    const users = await Usuario.find({}).select(
+  async index(req, res) {
+    const users = await Usuario.find({ _id: { $ne: req.idUsuario } }).select(
       'id nome administrador professor'
     );
 
@@ -59,6 +59,61 @@ class UsuarioController {
 
     return res.status(200).json({
       users,
+    });
+  }
+
+  async findTeacherByEmail(req, res) {
+    const { email } = req.params;
+
+    if (!email) {
+      return res.status(400).json('Email não informado');
+    }
+
+    const users = await Usuario.find({
+      login: new RegExp(email, 'i'),
+      professor: true,
+    }).select('id nome');
+
+    return res.status(200).json({
+      users,
+    });
+  }
+
+  async switchTeacher(req, res) {
+    const { id } = req.body;
+
+    if (!id) {
+      return res.status(400).json('Usuário não informado');
+    }
+
+    Usuario.findById({ _id: id }, (_, user) => {
+      user.professor = !user.professor;
+
+      user.save((err, result) => {
+        if (result) {
+          return res.status(200).json();
+        }
+        return res.status(400).json('Erro ao atualizar!');
+      });
+    });
+  }
+
+  async switchAdmin(req, res) {
+    const { id } = req.body;
+
+    if (!id) {
+      return res.status(400).json('Usuário não informado');
+    }
+
+    Usuario.findById({ _id: id }, (_, user) => {
+      user.administrador = !user.administrador;
+
+      user.save((err, result) => {
+        if (result) {
+          return res.status(200).json();
+        }
+        return res.status(400).json('Erro ao atualizar!');
+      });
     });
   }
 }
