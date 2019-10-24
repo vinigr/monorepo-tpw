@@ -17,6 +17,12 @@ class ArquivoController {
       });
     }
 
+    if (trabalho.editavel === false) {
+      return res.status(401).json({
+        error: 'Não é possível alterar um artigo não marcado como editável',
+      });
+    }
+
     trabalho.caminho = filename;
     await trabalho.save();
 
