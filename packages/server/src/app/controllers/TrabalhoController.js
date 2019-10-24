@@ -26,9 +26,13 @@ class TrabalhoController {
 
   async store(req, res) {
     const schema = yup.object().shape({
-      authors: yup.array().of(yup.string()).min(1).required(),
+      authors: yup
+        .array()
+        .of(yup.string())
+        .min(1)
+        .required(),
       othersAuthors: yup.string(),
-      advisor: yup.string()
+      advisor: yup.string(),
     });
 
     if (!(await schema.isValid(req.body))) {
@@ -80,8 +84,10 @@ class TrabalhoController {
         return res.status(400).send({ message: 'Usuário não autorizado!' });
       }
 
-      if(article.editavel === false) {
-        return res.status(400).send({ message: 'Artigo não disponível para edição!' });
+      if (article.editavel === false) {
+        return res
+          .status(400)
+          .send({ message: 'Artigo não disponível para edição!' });
       }
 
       await Trabalho.updateOne(
@@ -103,7 +109,7 @@ class TrabalhoController {
     try {
       const articles = await Trabalho.find({
         autores: { $in: req.idUsuario },
-      });
+      }).populate('autores', 'nome');
       return res.json(articles);
     } catch (error) {
       return res.send(400).json(error);
@@ -152,8 +158,10 @@ class TrabalhoController {
       });
     }
 
-    if (article.publicado === true){
-      return res.status(400).json({ error: 'Cannot change the editable status of a published article' });
+    if (article.publicado === true) {
+      return res.status(400).json({
+        error: 'Cannot change the editable status of a published article',
+      });
     }
 
     const articleUpdated = await Trabalho.updateOne(
@@ -182,7 +190,7 @@ class TrabalhoController {
     const published = article.publicado;
     const editable = article.editavel;
 
-    if((!published) && editable){
+    if (!published && editable) {
       const articleUpdated = await Trabalho.updateOne(
         { _id: id },
         {
