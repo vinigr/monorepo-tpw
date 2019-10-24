@@ -28,15 +28,15 @@ export default function Send() {
     if (authors.length === 0 && othersAuthors === '') {
       return;
     }
-
     const authorsId = authors.map(author => author._id);
 
     try {
-      await api.post('/artigo/create', {
+      await api.post('/article/create', {
         authors: authorsId,
         othersAuthors,
         advisor,
       });
+
       setAuthors([]);
       setOthersAuthors('');
     } catch ({ response }) {
