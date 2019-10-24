@@ -45,6 +45,24 @@ router.get(
   UsuarioController.findUserByEmail
 );
 
+router.get(
+  '/teacherFind/:email',
+  [authMiddleware, jwtVerify.isTeacher],
+  UsuarioController.findTeacherByEmail
+);
+
+router.put(
+  '/user/teacher',
+  [authMiddleware, jwtVerify.isAdmin],
+  UsuarioController.switchTeacher
+);
+
+router.put(
+  '/user/admin',
+  [authMiddleware, jwtVerify.isAdmin],
+  UsuarioController.switchAdmin
+);
+
 router.post('/artigo/create', [authMiddleware], TrabalhoController.store);
 
 router.post(
