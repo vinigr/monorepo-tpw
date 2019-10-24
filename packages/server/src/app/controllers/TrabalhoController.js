@@ -78,8 +78,8 @@ class TrabalhoController {
 
       if (
         article.autores.indexOf(req.idUsuario) === -1 &&
-        article.orientador !== req.idUsuario &&
-        article.professor !== req.idUsuario
+        article.orientador != req.idUsuario &&
+        article.professor != req.idUsuario
       ) {
         return res.status(400).send({ message: 'Usuário não autorizado!' });
       }
