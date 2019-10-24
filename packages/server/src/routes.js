@@ -63,7 +63,9 @@ router.put(
   UsuarioController.switchAdmin
 );
 
-router.post('/artigo/create', [authMiddleware], TrabalhoController.store);
+router.post('/article/create', [authMiddleware], TrabalhoController.store);
+
+router.put('/article/:id', [authMiddleware], TrabalhoController.update);
 
 router.post(
   '/arquivo/:idTrabalho',
