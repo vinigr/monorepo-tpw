@@ -7,7 +7,7 @@ const TrabalhoSchema = new mongoose.Schema(
     outrosAutores: [String],
     orientador: { type: mongoose.Schema.Types.ObjectId, ref: 'Usuario' },
     professor: { type: mongoose.Schema.Types.ObjectId, ref: 'Usuario' },
-    palavrasChave: String,
+    palavrasChave: [String],
     resumo: String,
     publicado: Boolean,
     editavel: Boolean,
