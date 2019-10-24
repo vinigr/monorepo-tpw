@@ -30,12 +30,16 @@ export default function Article(props) {
   const [loading, setLoading] = useState(true);
   const [article, setArticle] = useState();
 
-  const id = AuthService.getId();
+  let id;
   const idArticle = props.match.params.id;
 
   useEffect(() => {
     if (article) {
       const { autores } = article;
+
+      if (AuthService.loggedIn()) {
+        id = AuthService.getId();
+      }
 
       if (autores) {
         if (autores.filter(autor => autor._id === id).length > 0) {
@@ -140,7 +144,7 @@ export default function Article(props) {
 
   async function switchEdit() {
     try {
-      const data = await api.put(`/article/editable/${idArticle}`);
+      await api.put(`/article/editable/${idArticle}`);
       setEdit(!edit);
     } catch (error) {
       console.log(error);
@@ -149,7 +153,7 @@ export default function Article(props) {
 
   async function switchPublish() {
     try {
-      const data = await api.put(`/article/published/${idArticle}`);
+      await api.put(`/article/published/${idArticle}`);
       setPublished(!published);
     } catch (error) {
       console.log(error);
