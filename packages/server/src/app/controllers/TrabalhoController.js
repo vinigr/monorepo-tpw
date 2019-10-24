@@ -129,7 +129,7 @@ class TrabalhoController {
 
   async latestArticles(_, res) {
     try {
-      const articles = await Trabalho.find({})
+      const articles = await Trabalho.find({ publicado: true })
         .sort({ created_at: -1 })
         .limit(5)
         .populate('autores', 'nome')
@@ -154,7 +154,7 @@ class TrabalhoController {
     }
   }
 
-  async switchEditable(_, res) {
+  async switchEditable(req, res) {
     const { id } = req.params;
 
     const article = await Trabalho.findOne({ _id: id });
@@ -163,7 +163,10 @@ class TrabalhoController {
       return res.status(400).json({ error: 'This article does not exists' });
     }
 
-    if (article.professor != req.idUsuario) {
+    if (
+      article.professor != req.idUsuario &&
+      article.orientador != req.idUsuario
+    ) {
       return res.status(401).json({
         error: 'You do not have permisson to change this article status',
       });
@@ -183,7 +186,7 @@ class TrabalhoController {
     return res.json(articleUpdated);
   }
 
-  async switchPublished(_, res) {
+  async switchPublished(req, res) {
     const { id } = req.params;
 
     const article = await Trabalho.findOne({ _id: id });
@@ -192,7 +195,10 @@ class TrabalhoController {
       return res.status(400).json({ error: 'This article does not exists' });
     }
 
-    if (article.professor != req.idUsuario) {
+    if (
+      article.professor != req.idUsuario &&
+      article.orientador != req.idUsuario
+    ) {
       return res.status(401).json({
         error: 'You do not have permisson to change this article status',
       });
