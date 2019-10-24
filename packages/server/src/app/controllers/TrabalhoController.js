@@ -189,6 +189,7 @@ class TrabalhoController {
           publicado: !published,
           editavel: !editable,
         }
+      );
 
       return res.json(articleUpdated);
     }

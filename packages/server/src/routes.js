@@ -67,6 +67,18 @@ router.post('/article/create', [authMiddleware], TrabalhoController.store);
 
 router.put('/article/:id', [authMiddleware], TrabalhoController.update);
 
+router.put(
+  '/article/editable/:id',
+  [authMiddleware, jwtVerify.isTeacher],
+  TrabalhoController.switchEditable
+);
+
+router.put(
+  '/article/published/:id',
+  [authMiddleware, jwtVerify.isTeacher],
+  TrabalhoController.switchPublished
+);
+
 router.post(
   '/arquivo/:idTrabalho',
   upload.single('file'),
