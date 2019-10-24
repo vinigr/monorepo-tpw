@@ -52,13 +52,13 @@ router.get(
 );
 
 router.put(
-  '/user/teacher',
+  '/user/teacher/:id',
   [authMiddleware, jwtVerify.isAdmin],
   UsuarioController.switchTeacher
 );
 
 router.put(
-  '/user/admin',
+  '/user/admin/:id',
   [authMiddleware, jwtVerify.isAdmin],
   UsuarioController.switchAdmin
 );

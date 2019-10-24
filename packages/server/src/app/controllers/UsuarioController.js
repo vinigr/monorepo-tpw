@@ -80,7 +80,7 @@ class UsuarioController {
   }
 
   async switchTeacher(req, res) {
-    const { id } = req.body;
+    const { id } = req.params;
 
     if (!id) {
       return res.status(400).json('Usuário não informado');
@@ -99,7 +99,7 @@ class UsuarioController {
   }
 
   async switchAdmin(req, res) {
-    const { id } = req.body;
+    const { id } = req.params;
 
     if (!id) {
       return res.status(400).json('Usuário não informado');
