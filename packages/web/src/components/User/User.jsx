@@ -12,7 +12,7 @@ export default function User({ _id, nome, professor, administrador }) {
 
   async function switchTeacher() {
     try {
-      await api.put('/user/teacher', { id: _id });
+      await api.put(`/user/teacher/${_id}`);
       setIsProfessor(!isProfessor);
     } catch (error) {
       console.log(error);
@@ -21,7 +21,7 @@ export default function User({ _id, nome, professor, administrador }) {
 
   async function switchAdmin() {
     try {
-      await api.put('/user/admin', { id: _id });
+      await api.put(`/user/admin/${_id}`);
       setIsAdministrador(!isAdministrador);
     } catch (error) {
       console.log(error);
