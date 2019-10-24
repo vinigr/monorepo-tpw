@@ -26,8 +26,9 @@ class TrabalhoController {
 
   async store(req, res) {
     const schema = yup.object().shape({
-      authors: yup.object().required(),
+      authors: yup.array().of(yup.string()).min(1).required(),
       othersAuthors: yup.string(),
+      advisor: yup.string()
     });
 
     if (!(await schema.isValid(req.body))) {
@@ -52,6 +53,14 @@ class TrabalhoController {
   }
 
   async update(req, res) {
+    const schema = yup.object().shape({
+      title: yup.string().required(),
+      summary: yup.string(),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Entrada inválida' });
+    }
     const { title, summary, keywords } = req.body;
     const { id } = req.params;
 
