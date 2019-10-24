@@ -56,6 +56,7 @@ class TrabalhoController {
     const schema = yup.object().shape({
       title: yup.string().required(),
       summary: yup.string(),
+      keywords: yup.array().of(yup.string()),
     });
 
     if (!(await schema.isValid(req.body))) {
@@ -77,6 +78,10 @@ class TrabalhoController {
         article.professor !== req.idUsuario
       ) {
         return res.status(400).send({ message: 'Usuário não autorizado!' });
+      }
+
+      if(article.editavel === false) {
+        return res.status(400).send({ message: 'Artigo não disponível para edição!' });
       }
 
       await Trabalho.updateOne(
