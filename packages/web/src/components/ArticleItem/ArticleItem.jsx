@@ -2,9 +2,9 @@ import React from 'react';
 
 import { Container, LinkArticle } from './styles';
 
-const ArticleItem = ({ id, titulo, palavrasChave }) => (
+const ArticleItem = ({ _id, titulo, palavrasChave }) => (
   <Container>
-    <LinkArticle to={`/article/${id}`}>
+    <LinkArticle to={`/article/${_id}`}>
       <h3>{titulo}</h3>
       <div>
         {palavrasChave &&
