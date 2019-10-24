@@ -4,24 +4,59 @@ import Switch from '@material-ui/core/Switch';
 
 import { Container } from './styles';
 
-export default function User({ name, professor }) {
+import api from '../../service/api';
+
+export default function User({ _id, nome, professor, administrador }) {
   const [isProfessor, setIsProfessor] = useState(professor);
+  const [isAdministrador, setIsAdministrador] = useState(administrador);
+
+  async function switchTeacher() {
+    try {
+      await api.put('/user/teacher', { id: _id });
+      setIsProfessor(!isProfessor);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function switchAdmin() {
+    try {
+      await api.put('/user/admin', { id: _id });
+      setIsAdministrador(!isAdministrador);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <Container>
-      <h3>{name}</h3>
-      <FormControlLabel
-        control={
-          <Switch
-            checked={isProfessor}
-            onChange={() => setIsProfessor(!isProfessor)}
-            value="checkedB"
-            color="primary"
-          />
-        }
-        label="Professor"
-        labelPlacement="start"
-      />
+      <h3>{nome}</h3>
+      <div>
+        <FormControlLabel
+          control={
+            <Switch
+              checked={isProfessor}
+              onChange={switchTeacher}
+              value="checkedA"
+              color="primary"
+            />
+          }
+          label="Professor"
+          labelPlacement="start"
+        />
+        <FormControlLabel
+          control={
+            <Switch
+              checked={isAdministrador}
+              onChange={switchAdmin}
+              value="checkedB"
+              color="secondary"
+            />
+          }
+          label="Administrador"
+          labelPlacement="start"
+        />
+      </div>
     </Container>
   );
 }
