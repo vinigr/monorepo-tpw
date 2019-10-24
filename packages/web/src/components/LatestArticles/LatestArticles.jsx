@@ -33,7 +33,7 @@ export default function LatestArticles() {
                 <div id="authors">
                   {article.autores &&
                     article.autores.map(autor => (
-                      <h4 key={autor.id}>{autor.nome};</h4>
+                      <h4 key={autor._id}>{autor.nome};</h4>
                     ))}
                   {article.outrosAutores &&
                     article.outrosAutores.map(autor => (
