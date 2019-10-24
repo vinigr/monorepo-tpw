@@ -9,10 +9,17 @@ import api from '../../service/api';
 export default function Send() {
   const [authors, setAuthors] = useState([]);
   const [othersAuthors, setOthersAuthors] = useState('');
+  const [advisor, setAdvisor] = useState();
 
   async function findUsers(newValue) {
     const inputValue = newValue.replace(/\W/g, '');
     const { data } = await api.get(`/userFind/${inputValue}`);
+    return data.users;
+  }
+
+  async function findAdvisor(newValue) {
+    const inputValue = newValue.replace(/\W/g, '');
+    const { data } = await api.get(`/teacherFind/${inputValue}`);
     return data.users;
   }
 
@@ -28,6 +35,7 @@ export default function Send() {
       await api.post('/artigo/create', {
         authors: authorsId,
         othersAuthors,
+        advisor,
       });
       setAuthors([]);
       setOthersAuthors('');
@@ -58,6 +66,17 @@ export default function Send() {
           type="text"
           value={othersAuthors}
           onChange={e => setOthersAuthors(e.target.value)}
+        />
+        <label>Quem é o orientador?</label>
+        <AsyncSelect
+          className="select"
+          value={advisor}
+          cacheOptions
+          onChange={e => setAdvisor(e)}
+          getOptionValue={option => option._id}
+          getOptionLabel={option => option.nome}
+          loadOptions={_.debounce(findAdvisor, 1000)}
+          placeholder="Selecione"
         />
         <button onClick={createArticle}>Concluir</button>
       </form>
