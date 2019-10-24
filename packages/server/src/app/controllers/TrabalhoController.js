@@ -86,6 +86,42 @@ class TrabalhoController {
     }
   }
 
+  async switchEditable(_, res){
+    const { id } = req.params;
+
+    const article = await Trabalho.findOne({ _id: id });
+
+    if(!article){
+      return res.status(400).json({ error: "This article does not exists" });
+    }
+
+    if(article.professor != req.idUsuario) {
+      return res.status(401).json({ error: "You do not have permisson to change this article status" })
+    }
+
+    const articleUpdated = await Trabalho.updateOne({ _id: id }, { editavel: !article.editavel });
+
+    return res.json(articleUpdated);
+  }
+
+  async switchPublished(_, res){
+    const { id } = req.params;
+
+    const article = await Trabalho.findOne({ _id: id });
+
+    if(!article){
+      return res.status(400).json({ error: "This article does not exists" });
+    }
+
+    if(article.professor != req.idUsuario) {
+      return res.status(401).json({ error: "You do not have permisson to change this article status" })
+    }
+
+    const articleUpdated = await Trabalho.updateOne({ _id: id }, { publicado: !article.publicado });
+
+    return res.json(articleUpdated);
+  }
+
 }
 
 module.exports = new TrabalhoController();
