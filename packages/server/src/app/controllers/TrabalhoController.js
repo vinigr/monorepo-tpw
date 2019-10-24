@@ -116,6 +116,17 @@ class TrabalhoController {
     }
   }
 
+  async articlesTeacher(req, res) {
+    try {
+      const articles = await Trabalho.find({
+        $or: [{ orientador: req.idUsuario }, { professor: req.idUsuario }],
+      }).populate('autores', 'nome');
+      return res.json(articles);
+    } catch (error) {
+      return res.send(400).json(error);
+    }
+  }
+
   async latestArticles(_, res) {
     try {
       const articles = await Trabalho.find({})

@@ -34,6 +34,12 @@ router.get('/article/:id', TrabalhoController.getArticle);
 router.get('/articles', [authMiddleware], TrabalhoController.articlesUser);
 
 router.get(
+  '/articlesTeacher',
+  [authMiddleware, jwtVerify.isTeacher],
+  TrabalhoController.articlesTeacher
+);
+
+router.get(
   '/users',
   [authMiddleware, jwtVerify.isAdmin],
   UsuarioController.index
