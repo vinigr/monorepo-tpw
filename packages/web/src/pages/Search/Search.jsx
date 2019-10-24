@@ -40,13 +40,11 @@ export default function Search(props) {
     async function fetchData() {
       setLoading(true);
       try {
-        const { data } = await api.post(`/trabalho/${article}`, {
-          pesquisa: article,
-        });
-        setArticles(data.trabalhos);
+        const { data } = await api.get(`/trabalho/${article}`);
+        setArticles(data);
         setLoading(false);
       } catch (err) {
-        console.log(err);
+        console.log(err.response.data);
       }
     }
 
@@ -90,7 +88,7 @@ export default function Search(props) {
             <ul>
               {articles &&
                 articles.map(article => (
-                  <ArticleItem key={article.id} {...article} />
+                  <ArticleItem key={article._id} {...article} />
                 ))}
             </ul>
           ) : (
