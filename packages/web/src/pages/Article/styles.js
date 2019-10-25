@@ -202,9 +202,12 @@ export const Container = styled.div`
     }
 
     #orientador {
+      display: flex;
+      align-items: center;
       margin-bottom: 12px;
 
       h4 {
+        margin-left: 6px;
         font-weight: 500;
       }
     }

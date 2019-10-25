@@ -6,6 +6,7 @@ export const Container = styled.div`
   align-items: center;
   background-color: #6cbceb;
   color: #ececec;
+  min-height: 100vh;
 
   header {
     width: calc(100vw - 40px);

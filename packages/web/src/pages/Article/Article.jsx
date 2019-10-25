@@ -51,6 +51,7 @@ export default function Article(props) {
           setIsAuthor(true);
         }
       }
+
       if (article.orientador) {
         if (article.orientador === id) {
           setIsOrientador(true);
