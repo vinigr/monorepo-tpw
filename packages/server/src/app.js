@@ -1,14 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
+require('dotenv').config();
 
 const routes = require('./routes');
 
 const app = express();
 
-mongoose.connect(
-  'mongodb+srv://primeiro:senhaPadrao@cluster0-67ojl.gcp.mongodb.net/test?retryWrites=true&w=majority',
-  { useNewUrlParser: true }
-);
+mongoose.connect(process.env.URL_BANCO, { useNewUrlParser: true });
 app.use(express.json());
 
 app.use((req, res, next) => {
