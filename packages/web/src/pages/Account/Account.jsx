@@ -25,7 +25,7 @@ export default function Account(props) {
       try {
         const { data } = await api.get('/articles');
         if (data) {
-          return setArticles(data);
+          setArticles(data);
         }
 
         if (
@@ -34,7 +34,7 @@ export default function Account(props) {
         ) {
           const { data } = await api.get('/articlesTeacher');
           if (data) {
-            return articlesTeacher(data);
+            return setArticlesTeacher(data);
           }
         }
 
