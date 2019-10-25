@@ -76,11 +76,7 @@ class TrabalhoController {
         return res.status(400).send({ message: 'Artigo não encontrado!' });
       }
 
-      if (
-        article.autores.indexOf(req.idUsuario) === -1 &&
-        article.orientador != req.idUsuario &&
-        article.professor != req.idUsuario
-      ) {
+      if (article.autores.indexOf(req.idUsuario) === -1) {
         return res.status(400).send({ message: 'Usuário não autorizado!' });
       }
 
