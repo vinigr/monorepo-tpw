@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import AsyncSelect from 'react-select/async';
 import _ from 'lodash';
+import { Snackbar } from '@material-ui/core';
+
+import MySnackbarContentWrapper from '../../components/SnackBar/SnackBar';
 
 import { Container } from './styles';
 
@@ -10,6 +13,8 @@ export default function Send() {
   const [authors, setAuthors] = useState([]);
   const [othersAuthors, setOthersAuthors] = useState('');
   const [advisor, setAdvisor] = useState();
+  const [openSuccess, setOpenSuccess] = useState(false);
+  const [openError, setOpenError] = useState(false);
 
   async function findUsers(newValue) {
     const inputValue = newValue.replace(/\W/g, '');
@@ -39,9 +44,19 @@ export default function Send() {
 
       setAuthors([]);
       setOthersAuthors('');
+      setOpenSuccess(true);
     } catch ({ response }) {
-      console.log(response);
+      setOpenError(true);
     }
+  }
+
+  function handleClose(event, reason) {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSuccess(false);
+    setOpenError(false);
   }
 
   return (
@@ -56,7 +71,7 @@ export default function Send() {
           onChange={e => setAuthors(e)}
           getOptionValue={option => option._id}
           getOptionLabel={option => option.nome}
-          loadOptions={_.debounce(findUsers, 1000)}
+          loadOptions={_.debounce(findUsers, 500)}
           placeholder="Selecione"
           isSearchable
         />
@@ -75,11 +90,41 @@ export default function Send() {
           onChange={e => setAdvisor(e)}
           getOptionValue={option => option._id}
           getOptionLabel={option => option.nome}
-          loadOptions={_.debounce(findAdvisor, 1000)}
+          loadOptions={_.debounce(findAdvisor, 500)}
           placeholder="Selecione"
         />
         <button onClick={createArticle}>Concluir</button>
       </form>
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+        open={openSuccess}
+        autoHideDuration={6000}
+        onClose={handleClose}
+      >
+        <MySnackbarContentWrapper
+          onClose={handleClose}
+          variant="success"
+          message="Artigo criado!"
+        />
+      </Snackbar>
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+        open={openError}
+        autoHideDuration={6000}
+        onClose={handleClose}
+      >
+        <MySnackbarContentWrapper
+          onClose={handleClose}
+          variant="error"
+          message="Erro ao criar artigo!"
+        />
+      </Snackbar>
     </Container>
   );
 }
