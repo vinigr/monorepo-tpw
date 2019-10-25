@@ -47,10 +47,8 @@ app.use(routes);
 
 app.use('/files', express.static(path.resolve(__dirname, '..', 'tmp')));
 
-app.use(() => {
-  this.server.use(async (err, req, res, next) => {
-    return res.status(500).json({ error: 'Internal server error' });
-  });
+app.use(async (err, req, res, next) => {
+  return res.status(500).json({ error: 'Internal server error' });
 });
 
 module.exports = app;
