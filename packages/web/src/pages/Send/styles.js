@@ -7,6 +7,20 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
 
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: calc(100vw - 40px);
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+
+    img {
+      width: 100px;
+    }
+  }
+
   form {
     display: flex;
     flex-direction: column;
