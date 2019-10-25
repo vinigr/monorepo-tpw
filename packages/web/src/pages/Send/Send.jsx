@@ -75,7 +75,7 @@ export default function Send(props) {
     setOpenError(false);
   }
 
-  function handleClose() {
+  function handleCloseMenu() {
     setAnchorEl(null);
   }
 
@@ -154,7 +154,7 @@ export default function Send(props) {
       <MenuAvatar
         anchorEl={anchorEl}
         open={open}
-        handleClose={handleClose}
+        handleClose={handleCloseMenu}
         {...props}
       />
     </Container>

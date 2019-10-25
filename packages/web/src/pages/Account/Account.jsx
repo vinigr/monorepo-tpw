@@ -53,11 +53,6 @@ export default function Account(props) {
     fetchData();
   }, []);
 
-  function logout() {
-    AuthService.logout(props);
-    props.history.go();
-  }
-
   function handleClose() {
     setAnchorEl(null);
   }
