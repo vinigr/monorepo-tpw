@@ -102,6 +102,30 @@ class TrabalhoController {
     }
   }
 
+  async delete(req, res) {
+    const { id } = req.params;
+
+    try {
+      const article = await Trabalho.findById({ _id: id });
+
+      if (!article) {
+        return res.status(400).send({ message: 'Artigo não encontrado!' });
+      }
+
+      if (article.professor != req.idUsuario) {
+        return res.status(401).json({
+          error: 'You do not have permission to delete this article',
+        });
+      }
+
+      await Trabalho.deleteOne({ _id: id });
+
+      return res.send();
+    } catch (error) {
+      return res.status(400).send(error);
+    }
+  }
+
   async articlesUser(req, res) {
     try {
       const articles = await Trabalho.find({
@@ -160,12 +184,9 @@ class TrabalhoController {
       return res.status(400).json({ error: 'This article does not exists' });
     }
 
-    if (
-      article.professor != req.idUsuario &&
-      article.orientador != req.idUsuario
-    ) {
+    if (article.professor != req.idUsuario) {
       return res.status(401).json({
-        error: 'You do not have permisson to change this article status',
+        error: 'You do not have permission to change this article status',
       });
     }
 
@@ -192,12 +213,9 @@ class TrabalhoController {
       return res.status(400).json({ error: 'This article does not exists' });
     }
 
-    if (
-      article.professor != req.idUsuario &&
-      article.orientador != req.idUsuario
-    ) {
+    if (article.professor != req.idUsuario) {
       return res.status(401).json({
-        error: 'You do not have permisson to change this article status',
+        error: 'You do not have permission to change this article status',
       });
     }
 

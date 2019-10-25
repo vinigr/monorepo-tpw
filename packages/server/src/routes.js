@@ -73,6 +73,12 @@ router.post('/article/create', [authMiddleware], TrabalhoController.store);
 
 router.put('/article/:id', [authMiddleware], TrabalhoController.update);
 
+router.delete(
+  '/article/:id',
+  [authMiddleware, jwtVerify.isTeacher],
+  TrabalhoController.delete
+);
+
 router.put(
   '/article/editable/:id',
   [authMiddleware, jwtVerify.isTeacher],
