@@ -51,7 +51,6 @@ export default function Article(props) {
           setIsAuthor(true);
         }
       }
-
       if (article.orientador) {
         if (article.orientador === id) {
           setIsOrientador(true);
@@ -152,18 +151,26 @@ export default function Article(props) {
   async function switchEdit() {
     try {
       await api.put(`/article/editable/${idArticle}`);
+
       setEdit(!edit);
     } catch (error) {
-      console.log(error);
+      if (!edit && published) {
+        setMessage('Desative a publicação se desejar permitir a edição!');
+        setOpenError(true);
+      }
     }
   }
 
   async function switchPublish() {
     try {
       await api.put(`/article/published/${idArticle}`);
+      if (!published) {
+        setEdit(false);
+      }
       setPublished(!published);
     } catch (error) {
-      console.log(error);
+      setMessage('Erro ao publicar artigo!');
+      setOpenError(true);
     }
   }
 
@@ -214,8 +221,8 @@ export default function Article(props) {
             ))}
           </div>
         )}
-        {archive && (
-          <a href={caminho} target="_blank" rel="noopener noreferrer">
+        {article.url && (
+          <a href={article.url} target="_blank" rel="noopener noreferrer">
             <IconPdf />
             <span>Acesso ao artigo</span>
           </a>
@@ -267,7 +274,7 @@ export default function Article(props) {
             <div id="pdf">
               <div>
                 <a
-                  href={archive.preview}
+                  href={archive.preview || article.url}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -276,9 +283,11 @@ export default function Article(props) {
                 </a>
                 <IconCancel onClick={() => setArchive(null)} />
               </div>
-              <button id="upload" onClick={sendArchive}>
-                Salvar arquivo
-              </button>
+              {archive.preview && (
+                <button id="upload" onClick={sendArchive}>
+                  Salvar arquivo
+                </button>
+              )}
             </div>
           ) : (
             <div id="upload" {...getRootProps()}>
