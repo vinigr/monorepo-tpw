@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Link } from 'react-router-dom';
-import Switch from '@material-ui/core/Switch';
+import { Switch, Snackbar } from '@material-ui/core';
+
+import MySnackbarContentWrapper from '../../components/SnackBar/SnackBar';
 
 import {
   Container,
@@ -29,6 +31,9 @@ export default function Article(props) {
   const [published, setPublished] = useState(false);
   const [loading, setLoading] = useState(true);
   const [article, setArticle] = useState();
+  const [openSuccess, setOpenSuccess] = useState(false);
+  const [openError, setOpenError] = useState(false);
+  const [message, setMessage] = useState();
 
   let id;
   const idArticle = props.match.params.id;
@@ -101,29 +106,29 @@ export default function Article(props) {
     setKeywords([...keywords.filter((_, index) => index !== indexToRemove)]);
   }
 
-  const { getRootProps, getInputProps } = useDropzone(
-    {
-      accept: 'application/pdf',
-      onDropAccepted: acceptedFile => {
-        setArchive(
-          Object.assign(acceptedFile[0], {
-            preview: URL.createObjectURL(acceptedFile[0]),
-          })
-        );
-      },
+  const { getRootProps, getInputProps } = useDropzone({
+    accept: 'application/pdf',
+    onDropAccepted: acceptedFile => {
+      setArchive(
+        Object.assign(acceptedFile[0], {
+          preview: URL.createObjectURL(acceptedFile[0]),
+        })
+      );
     },
-    sendArchive()
-  );
+  });
 
-  async function sendArchive() {
+  async function sendArchive(e) {
+    e.preventDefault();
     if (archive) {
       const formData = new FormData();
       formData.append('file', archive);
       try {
-        const data = await api.post(`/arquivo/${idArticle}`, formData);
-        console.log(data);
+        await api.post(`/arquivo/${idArticle}`, formData);
+        setMessage('Arquivo salvo!');
+        setOpenSuccess(true);
       } catch (error) {
-        console.log(error);
+        setMessage('Erro ao salvar arquivo!');
+        setOpenError(true);
       }
     }
   }
@@ -131,14 +136,16 @@ export default function Article(props) {
   async function saveChanges(e) {
     e.preventDefault();
     try {
-      const data = await api.put(`/article/${idArticle}`, {
+      await api.put(`/article/${idArticle}`, {
         title,
         summary,
         keywords,
       });
-      console.log(data);
+      setMessage('Alterações realizadas com sucesso');
+      setOpenSuccess(true);
     } catch (error) {
-      console.log(error.response);
+      setMessage('Erro ao salvar alterações!');
+      setOpenError(true);
     }
   }
 
@@ -158,6 +165,15 @@ export default function Article(props) {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  function handleClose(event, reason) {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSuccess(false);
+    setOpenError(false);
   }
 
   function renderContent({
@@ -249,15 +265,20 @@ export default function Article(props) {
           />
           {archive ? (
             <div id="pdf">
-              <a
-                href={archive.preview}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <IconPdf />
-                <span>{archive.name}</span>
-              </a>
-              <IconCancel onClick={() => setArchive(null)} />
+              <div>
+                <a
+                  href={archive.preview}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <IconPdf />
+                  <span>{archive.name}</span>
+                </a>
+                <IconCancel onClick={() => setArchive(null)} />
+              </div>
+              <button id="upload" onClick={sendArchive}>
+                Salvar arquivo
+              </button>
             </div>
           ) : (
             <div id="upload" {...getRootProps()}>
@@ -299,6 +320,36 @@ export default function Article(props) {
           </div>
         </div>
       )}
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+        open={openSuccess}
+        autoHideDuration={6000}
+        onClose={handleClose}
+      >
+        <MySnackbarContentWrapper
+          onClose={handleClose}
+          variant="success"
+          message={message}
+        />
+      </Snackbar>
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+        open={openError}
+        autoHideDuration={6000}
+        onClose={handleClose}
+      >
+        <MySnackbarContentWrapper
+          onClose={handleClose}
+          variant="error"
+          message={message}
+        />
+      </Snackbar>
     </Container>
   );
 }

@@ -78,18 +78,29 @@ export const Container = styled.div`
       width: 90%;
       min-height: 60px;
       display: flex;
+      flex-direction: column;
+      justify-items: center;
       align-items: center;
-      justify-content: center;
       margin: 20px auto;
 
-      a {
+      div {
         display: flex;
-        align-items: center;
         justify-content: center;
 
-        span {
-          margin: 0 8px;
+        a {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 6px;
+
+          span {
+            margin: 0 8px;
+          }
         }
+      }
+
+      button#upload {
+        align-self: center;
       }
     }
 
