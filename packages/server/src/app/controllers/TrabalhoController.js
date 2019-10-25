@@ -20,6 +20,7 @@ class TrabalhoController {
         { palavrasChave: new RegExp(pesquisa, 'i') },
         { resumo: new RegExp(pesquisa, 'i') },
       ],
+      publicado: true,
     });
     return res.json(trabalhos);
   }
