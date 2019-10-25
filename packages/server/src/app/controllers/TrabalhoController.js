@@ -165,10 +165,9 @@ class TrabalhoController {
     const { id } = req.params;
 
     try {
-      const article = await Trabalho.findOne({ _id: id }).populate(
-        'autores',
-        'nome'
-      );
+      const article = await Trabalho.findOne({ _id: id })
+        .populate('autores', 'nome')
+        .populate('orientador', 'nome');
       return res.json(article);
     } catch (err) {
       return res.send(400).json(err);
