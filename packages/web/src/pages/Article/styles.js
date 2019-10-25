@@ -243,14 +243,11 @@ export const Container = styled.div`
     }
   }
 
-  #orientador-options {
+  #professor-options {
     display: flex;
     justify-content: space-between;
     width: 400px;
     margin-top: 16px;
-    /* div{
-      display
-    } */
   }
 `;
 

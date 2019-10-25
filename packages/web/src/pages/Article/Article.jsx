@@ -120,7 +120,7 @@ export default function Article(props) {
       const formData = new FormData();
       formData.append('file', archive);
       try {
-        const data = await api.post(`arquivo/${idArticle}`, formData);
+        const data = await api.post(`/arquivo/${idArticle}`, formData);
         console.log(data);
       } catch (error) {
         console.log(error);
@@ -171,7 +171,7 @@ export default function Article(props) {
   }) {
     return (
       <main>
-        <h1>{titulo}</h1>
+        <h1>{titulo ? titulo : 'Nome: -----'}</h1>
         <div id="autores">
           {autores.map(autor => (
             <h2 key={autor._id}>{autor.nome}</h2>
@@ -215,9 +215,7 @@ export default function Article(props) {
           <img src={logo} alt="rede-ftc-logo" />
         </Link>
       </header>
-      {loading ? null : isOrientador ||
-        isProfessor ||
-        (isAuthor && article.editavel) ? (
+      {loading ? null : isAuthor && article.editavel ? (
         <form onKeyDown={e => e.keyCode === 13 && e.preventDefault()}>
           <label>Qual o nome do artigo?</label>
           <input
@@ -271,10 +269,14 @@ export default function Article(props) {
           <button onClick={saveChanges}>Salvar alterações</button>
         </form>
       ) : (
-        (published || (isAuthor && !article.editavel)) && renderContent(article)
+        (published ||
+          (isAuthor && !article.editavel) ||
+          isProfessor ||
+          isOrientador) &&
+        renderContent(article)
       )}
-      {isOrientador && (
-        <div id="orientador-options">
+      {isProfessor && (
+        <div id="professor-options">
           <div>
             <h4>Permitir edição</h4>
             <Switch
