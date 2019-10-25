@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Container } from './styles';
-import MyArticle from '../../components/MyArticle/MyArticle.jsx';
-import User from '../../components/User/User.jsx';
+import MyArticle from '../../components/MyArticle/MyArticle';
+import MenuAvatar from '../../components/MenuAvatar/MenuAvatar';
+import Avatar from '../../components/Avatar/Avatar';
+import User from '../../components/User/User';
 
 import logo from '../../assets/images/rede-ftc.png';
 
@@ -15,6 +17,8 @@ export default function Account(props) {
   const [articles, setArticles] = useState([]);
   const [articlesTeacher, setArticlesTeacher] = useState([]);
   const [users, setUsers] = useState([]);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
 
   useEffect(() => {
     if (AuthService.loggedIn()) {
@@ -34,23 +38,28 @@ export default function Account(props) {
         ) {
           const { data } = await api.get('/articlesTeacher');
           if (data) {
-            return setArticlesTeacher(data);
+            setArticlesTeacher(data);
           }
         }
 
         if (AuthService.getRole() === 'administrador') {
           const { data } = await api.get('/users');
+
           setUsers(data.users);
         }
       } catch ({ response }) {}
     }
 
     fetchData();
-  }, [articlesTeacher]);
+  }, []);
 
   function logout() {
     AuthService.logout(props);
     props.history.go();
+  }
+
+  function handleClose() {
+    setAnchorEl(null);
   }
 
   return (
@@ -63,8 +72,11 @@ export default function Account(props) {
           <h1>Conta</h1>
         </div>
         <div>
-          {name && <h5>{name}</h5>}
-          <button onClick={logout}>Sair</button>
+          {name && (
+            <>
+              <h5>{name}</h5> <Avatar setAnchorEl={setAnchorEl} name={name} />
+            </>
+          )}
         </div>
       </header>
       <section id="articles">
@@ -85,7 +97,6 @@ export default function Account(props) {
           </ul>
         </section>
       )}
-
       {AuthService.getRole() === 'administrador' && (
         <section id="users">
           <h2>Contas</h2>
@@ -94,6 +105,12 @@ export default function Account(props) {
           ))}
         </section>
       )}
+      <MenuAvatar
+        anchorEl={anchorEl}
+        open={open}
+        handleClose={handleClose}
+        {...props}
+      />
     </Container>
   );
 }
