@@ -1,6 +1,3 @@
-const path = require('path');
-const fs = require('fs');
-
 const Trabalho = require('../models/Trabalho');
 
 class ArquivoController {
@@ -9,7 +6,7 @@ class ArquivoController {
     const { idUsuario } = req;
     const { filename } = req.file;
 
-    const trabalho = Trabalho.findById(idTrabalho);
+    const trabalho = await Trabalho.findById(idTrabalho);
 
     if (trabalho.autores.indexOf(idUsuario) === -1) {
       return res.status(401).json({
