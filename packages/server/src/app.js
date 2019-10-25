@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
-
+require('express-async-errors');
 require('dotenv').config();
 
 const routes = require('./routes');
@@ -46,5 +46,11 @@ app.use((req, res, next) => {
 app.use(routes);
 
 app.use('/files', express.static(path.resolve(__dirname, '..', 'tmp')));
+
+app.use(() => {
+  this.server.use(async (err, req, res, next) => {
+    return res.status(500).json({ error: 'Internal server error' });
+  });
+});
 
 module.exports = app;
