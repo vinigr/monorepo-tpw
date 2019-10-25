@@ -15,7 +15,15 @@ const TrabalhoSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    toObject: { virtuals: true },
+    toJSON: { virtuals: true },
   }
 );
+
+TrabalhoSchema.virtual('url').get(function() {
+  const url = process.env.URL || 'http://localhost:3333';
+
+  return `${url}/files/${encodeURIComponent(this.caminho)}`;
+});
 
 module.exports = mongoose.model('Trabalho', TrabalhoSchema);

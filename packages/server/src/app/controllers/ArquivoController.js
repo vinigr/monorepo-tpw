@@ -4,7 +4,7 @@ class ArquivoController {
   async store(req, res) {
     const { idTrabalho } = req.params;
     const { idUsuario } = req;
-    const { filename } = req.file;
+    const { key } = req.file;
 
     const trabalho = await Trabalho.findById(idTrabalho);
 
@@ -20,7 +20,7 @@ class ArquivoController {
       });
     }
 
-    trabalho.caminho = filename;
+    trabalho.caminho = key;
     await trabalho.save();
 
     return res.json(trabalho.caminho);

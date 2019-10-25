@@ -1,5 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const path = require('path');
+
 require('dotenv').config();
 
 const routes = require('./routes');
@@ -42,5 +44,7 @@ app.use((req, res, next) => {
 });
 
 app.use(routes);
+
+app.use('/files', express.static(path.resolve(__dirname, '..', 'tmp')));
 
 module.exports = app;
