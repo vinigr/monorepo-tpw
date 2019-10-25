@@ -13,6 +13,7 @@ import api from '../../service/api';
 export default function Account(props) {
   const [name, setName] = useState();
   const [articles, setArticles] = useState([]);
+  const [articlesTeacher, setArticlesTeacher] = useState([]);
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
@@ -22,17 +23,18 @@ export default function Account(props) {
 
     async function fetchData() {
       try {
-        if (AuthService.getRole() === 'aluno') {
-          const { data } = await api.get('/articles');
-          if (data) {
-            return setArticles(data);
-          }
+        const { data } = await api.get('/articles');
+        if (data) {
+          return setArticles(data);
         }
 
-        if (AuthService.getRole() === 'professor') {
+        if (
+          AuthService.getRole() === 'professor' ||
+          AuthService.getRole() === 'administrador'
+        ) {
           const { data } = await api.get('/articlesTeacher');
           if (data) {
-            return setArticles(data);
+            return articlesTeacher(data);
           }
         }
 
@@ -44,7 +46,7 @@ export default function Account(props) {
     }
 
     fetchData();
-  }, []);
+  }, [articlesTeacher]);
 
   function logout() {
     AuthService.logout(props);
@@ -73,6 +75,17 @@ export default function Account(props) {
           ))}
         </ul>
       </section>
+      {articlesTeacher.length > 0 && (
+        <section id="articles">
+          <h2>Artigos de alunos</h2>
+          <ul>
+            {articlesTeacher.map(article => (
+              <MyArticle key={article._id} {...article} />
+            ))}
+          </ul>
+        </section>
+      )}
+
       {AuthService.getRole() === 'administrador' && (
         <section id="users">
           <h2>Contas</h2>
