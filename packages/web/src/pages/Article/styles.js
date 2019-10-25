@@ -256,9 +256,30 @@ export const Container = styled.div`
 
   #professor-options {
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    width: 400px;
-    margin-top: 16px;
+    width: 70%;
+    margin-top: 26px;
+
+    div {
+      width: 40%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    button {
+      height: 40px;
+      border: none;
+      border-radius: 2px;
+      padding: 6px;
+      color: #fff;
+      background-color: #e40c0c;
+
+      &:hover {
+        opacity: 0.8;
+        cursor: pointer;
+      }
+    }
   }
 `;
 

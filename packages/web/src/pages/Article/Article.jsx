@@ -174,6 +174,23 @@ export default function Article(props) {
     }
   }
 
+  async function deleteArticle(e) {
+    e.preventDefault();
+    try {
+      await api.delete(`/article/${idArticle}`);
+
+      setMessage('Artigo deletado!');
+      setOpenSuccess(true);
+
+      setTimeout(() => {
+        props.history.goBack();
+      }, 1500);
+    } catch (error) {
+      setMessage('Erro ao deletar artigo!');
+      setOpenError(true);
+    }
+  }
+
   function handleClose(event, reason) {
     if (reason === 'clickaway') {
       return;
@@ -190,7 +207,7 @@ export default function Article(props) {
     orientador,
     palavrasChave,
     resumo,
-    caminho,
+    url,
   }) {
     return (
       <main>
@@ -222,7 +239,7 @@ export default function Article(props) {
           </div>
         )}
         {article.url && (
-          <a href={article.url} target="_blank" rel="noopener noreferrer">
+          <a href={url} target="_blank" rel="noopener noreferrer">
             <IconPdf />
             <span>Acesso ao artigo</span>
           </a>
@@ -308,25 +325,28 @@ export default function Article(props) {
       {isProfessor && (
         <div id="professor-options">
           <div>
-            <h4>Permitir edição</h4>
-            <Switch
-              checked={edit}
-              onChange={switchEdit}
-              value="edit"
-              color="secondary"
-              inputProps={{ 'aria-label': 'primary checkbox' }}
-            />
+            <div>
+              <h4>Permitir edição</h4>
+              <Switch
+                checked={edit}
+                onChange={switchEdit}
+                value="edit"
+                color="secondary"
+                inputProps={{ 'aria-label': 'primary checkbox' }}
+              />
+            </div>
+            <div>
+              <h4>Publicado</h4>
+              <Switch
+                checked={published}
+                onChange={switchPublish}
+                value="published"
+                color="primary"
+                inputProps={{ 'aria-label': 'primary checkbox' }}
+              />
+            </div>
           </div>
-          <div>
-            <h4>Publicado</h4>
-            <Switch
-              checked={published}
-              onChange={switchPublish}
-              value="published"
-              color="primary"
-              inputProps={{ 'aria-label': 'primary checkbox' }}
-            />
-          </div>
+          <button onClick={deleteArticle}>Deletar artigo</button>
         </div>
       )}
       <Snackbar
