@@ -23,6 +23,12 @@ class UsuarioController {
 
     const hashSenha = await bcrypt.hash(senha, 8);
 
+    const existUser = await Usuario.findOne({login: login.toLowerCase()});
+
+    if(existUser){
+      return res.status(400).json({error: 'Usuário já existe'});
+    }
+
     const usuario = await Usuario.create({
       login: login.toLowerCase(),
       nome,
