@@ -1,0 +1,73 @@
+<?xml version="1.0"?> 
+<application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+<resources base="http://localhost:3333"> 
+  <resource path="login">
+    <method name="POST" id="login">
+      <request>  
+        <param name="login" style="query" type="xsd:string"/> 
+        <param name="senha" style="query" type="xsd:string"/> 
+      </request>
+      <response status="200"> 
+        <representation mediaType="application/json" /> 
+      </response>
+      <response status="400"> 
+        <representation mediaType="application/json" /> 
+      </response> 
+      <response status="401"> 
+        <representation mediaType="application/json" /> 
+      </response> 
+    </method>
+  </resource> 
+  <resource path="criarUsuario">
+    <method name="POST" id="novoUsuario">
+      <request>  
+        <param name="login" style="query" type="xsd:string"/> 
+        <param name="senha" style="query" type="xsd:string"/> 
+        <param name="nome" style="query" type="xsd:string"/> 
+      </request>
+      <response status="200"> 
+        <representation mediaType="application/json" /> 
+      </response>
+      <response status="400"> 
+        <representation mediaType="application/json" /> 
+      </response> 
+    </method>
+  </resource> 
+  <resource path="articles">
+    <method name="GET" id="articlesList">
+      <request>  
+        <param name="authorization" style="header" type="xsd:string"/> 
+      </request>
+      <response status="200"> 
+        <representation mediaType="application/json" /> 
+      </response>
+      <response status="400"> 
+        <representation mediaType="application/json" /> 
+      </response> 
+    </method>
+  </resource>
+  <resource path="article/{id}">
+    <method name="GET" id="article">
+      <request>  
+        <param name="id" style="template" type="xsd:string"/>
+      </request>
+      <response status="200"> 
+        <representation mediaType="application/json" /> 
+      </response>
+      <response status="400"> 
+        <representation mediaType="application/json" /> 
+      </response> 
+    </method>
+  </resource>
+  <resource path="articles/latest">
+    <method name="GET" id="articleLatest">
+      <response status="200"> 
+        <representation mediaType="application/json" /> 
+      </response>
+      <response status="400"> 
+        <representation mediaType="application/json" /> 
+      </response> 
+    </method>
+  </resource>
+</application>
