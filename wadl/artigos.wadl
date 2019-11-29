@@ -5,32 +5,29 @@
   <resource path="login">
     <method name="POST" id="login">
       <request>  
-        <param name="login" style="query" type="xsd:string"/> 
-        <param name="senha" style="query" type="xsd:string"/> 
+        <representation mediaType="application/json" describedby="aplication.wadl/entradaLogin"/> 
       </request>
       <response status="200"> 
         <representation mediaType="application/json" /> 
       </response>
       <response status="400"> 
-        <representation mediaType="application/json" /> 
+        <representation mediaType="application/json" describedby="aplication.wadl/error"/> 
       </response> 
       <response status="401"> 
-        <representation mediaType="application/json" /> 
+        <representation mediaType="application/json" describedby="aplication.wadl/error"/> 
       </response> 
     </method>
   </resource> 
   <resource path="criarUsuario">
     <method name="POST" id="novoUsuario">
-      <request>  
-        <param name="login" style="query" type="xsd:string"/> 
-        <param name="senha" style="query" type="xsd:string"/> 
-        <param name="nome" style="query" type="xsd:string"/> 
+      <request>
+        <representation mediaType="application/json" describedby="aplication.wadl/entradaNovoUsuario"/>  
       </request>
       <response status="200"> 
         <representation mediaType="application/json" /> 
       </response>
       <response status="400"> 
-        <representation mediaType="application/json" /> 
+        <representation mediaType="application/json" describedby="aplication.wadl/error"/> 
       </response> 
     </method>
   </resource> 
@@ -43,7 +40,19 @@
         <representation mediaType="application/json" /> 
       </response>
       <response status="400"> 
+        <representation mediaType="application/json" describedby="aplication.wadl/error"/> 
+      </response> 
+    </method>
+    <method name="POST" id="createArticle">
+      <request>
+        <param name="authorization" style="header" type="xsd:string"/>   
+        <representation mediaType="application/json" describedby="aplication.wadl/entradaCreateArticle"/> 
+      </request>
+      <response status="200"> 
         <representation mediaType="application/json" /> 
+      </response>
+      <response status="400"> 
+        <representation mediaType="application/json" describedby="aplication.wadl/error"/> 
       </response> 
     </method>
   </resource>
@@ -56,7 +65,7 @@
         <representation mediaType="application/json" /> 
       </response>
       <response status="400"> 
-        <representation mediaType="application/json" /> 
+        <representation mediaType="application/json" describedby="aplication.wadl/error"/> 
       </response> 
     </method>
   </resource>
@@ -66,7 +75,7 @@
         <representation mediaType="application/json" /> 
       </response>
       <response status="400"> 
-        <representation mediaType="application/json" /> 
+        <representation mediaType="application/json" describedby="aplication.wadl/error"/> 
       </response> 
     </method>
   </resource>

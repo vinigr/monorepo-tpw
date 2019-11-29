@@ -1,0 +1,12 @@
+{
+    "type" : "object",
+    "properties" : {
+        "login" : {
+            "type" : "string"
+        },
+        "senha" : {
+            "type" : "string"
+        }
+    },
+    "name" : "entradaNovoUsuario"
+}

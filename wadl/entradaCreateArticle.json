@@ -1,0 +1,18 @@
+{
+    "type" : "object",
+    "properties" : {
+        "authors" : {
+            "type" : "array",
+            "properties": {
+                "type": "string"
+            }
+        },
+        "othersAuthors" : {
+            "type" : "string"
+        },
+        "advisor" : {
+            "type" : "string"
+        }
+    },
+    "name" : "entradaNovoUsuario"
+}
