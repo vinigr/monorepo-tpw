@@ -1,12 +1,12 @@
 {
-    "type" : "object",
-    "properties" : {
-        "login" : {
-            "type" : "string"
-        },
-        "senha" : {
-            "type" : "string"
-        }
+  "type": "object",
+  "properties": {
+    "login": {
+      "type": "string"
     },
-    "name" : "entradaNovoUsuario"
+    "senha": {
+      "type": "string"
+    }
+  },
+  "name": "entradaLogin"
 }

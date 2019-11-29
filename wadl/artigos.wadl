@@ -43,6 +43,8 @@
         <representation mediaType="application/json" describedby="aplication.wadl/error"/> 
       </response> 
     </method>
+  </resource>
+  <resource path="article/create">
     <method name="POST" id="createArticle">
       <request>
         <param name="authorization" style="header" type="xsd:string"/>   
@@ -57,8 +59,33 @@
     </method>
   </resource>
   <resource path="article/{id}">
-    <method name="GET" id="article">
+    <method name="PUT" id="updateArticle">
+      <request>
+        <param name="authorization" style="header" type="xsd:string"/>
+        <param name="id" style="template" type="xsd:string"/>   
+        <representation mediaType="application/json" describedby="aplication.wadl/entradaCreateArticle"/> 
+      </request>
+      <response status="200"> 
+        <representation mediaType="application/json" /> 
+      </response>
+      <response status="400"> 
+        <representation mediaType="application/json" describedby="aplication.wadl/error"/> 
+      </response> 
+    </method>
+    <method name="GET" id="articleGet">
       <request>  
+        <param name="id" style="template" type="xsd:string"/>
+      </request>
+      <response status="200"> 
+        <representation mediaType="application/json" /> 
+      </response>
+      <response status="400"> 
+        <representation mediaType="application/json" describedby="aplication.wadl/error"/> 
+      </response> 
+    </method>
+    <method name="DELETE" id="deleteArticle">
+      <request>
+        <param name="authorization" style="header" type="xsd:string"/>  
         <param name="id" style="template" type="xsd:string"/>
       </request>
       <response status="200"> 
@@ -79,4 +106,140 @@
       </response> 
     </method>
   </resource>
+  <resource path="trabalho/{pesquisa}">
+    <method name="GET" id="articleLatest">
+      <response status="200"> 
+        <representation mediaType="application/json" /> 
+        <param name="pesquisa" style="template" type="xsd:string"/>
+      </response>
+      <response status="400"> 
+        <representation mediaType="application/json" describedby="aplication.wadl/error"/> 
+      </response> 
+    </method>
+  </resource>
+  <resource path="articlesTeacher">
+    <method name="GET" id="articlesTeacher">
+      <request>
+        <param name="authorization" style="header" type="xsd:string"/>   
+      </request>
+      <response status="200"> 
+        <representation mediaType="application/json" /> 
+      </response>
+      <response status="400"> 
+        <representation mediaType="application/json" describedby="aplication.wadl/error"/> 
+      </response> 
+    </method>
+  </resource>
+  <resource path="article/editable/{id}">
+    <method name="PUT" id="permissionEditable">
+      <request>
+        <param name="authorization" style="header" type="xsd:string"/>
+        <param name="id" style="template" type="xsd:string"/>  
+      </request>
+      <response status="200"> 
+        <representation mediaType="application/json" /> 
+      </response>
+      <response status="400"> 
+        <representation mediaType="application/json" describedby="aplication.wadl/error"/> 
+      </response> 
+    </method>
+  </resource>
+  <resource path="article/published/{id}">
+    <method name="PUT" id="permissionPublished">
+      <request>
+        <param name="authorization" style="header" type="xsd:string"/>
+        <param name="id" style="template" type="xsd:string"/>  
+      </request>
+      <response status="200"> 
+        <representation mediaType="application/json" /> 
+      </response>
+      <response status="400"> 
+        <representation mediaType="application/json" describedby="aplication.wadl/error"/> 
+      </response> 
+    </method>
+  </resource>
+  <resource path="users">
+    <method name="GET" id="usersList">
+      <request>
+        <param name="authorization" style="header" type="xsd:string"/>   
+      </request>
+      <response status="200"> 
+        <representation mediaType="application/json" /> 
+      </response>
+      <response status="400"> 
+        <representation mediaType="application/json" describedby="aplication.wadl/error"/> 
+      </response> 
+    </method>
+  </resource>
+  <resource path="userFind/{email}">
+    <method name="GET" id="findUser">
+      <request>
+        <param name="authorization" style="header" type="xsd:string"/>
+        <param name="email" style="template" type="xsd:string"/> 
+      </request>
+      <response status="200"> 
+        <representation mediaType="application/json" /> 
+      </response>
+      <response status="400"> 
+        <representation mediaType="application/json" describedby="aplication.wadl/error"/> 
+      </response> 
+    </method>
+  </resource>
+  <resource path="teacherFind/{email}">
+    <method name="GET" id="findTeacher">
+      <request>
+        <param name="authorization" style="header" type="xsd:string"/>
+        <param name="email" style="template" type="xsd:string"/> 
+      </request>
+      <response status="200"> 
+        <representation mediaType="application/json" /> 
+      </response>
+      <response status="400"> 
+        <representation mediaType="application/json" describedby="aplication.wadl/error"/> 
+      </response> 
+    </method>
+  </resource>
+  <resource path="user/teacher/{id}">
+    <method name="PUT" id="changeTeacher">
+      <request>
+        <param name="authorization" style="header" type="xsd:string"/>
+        <param name="id" style="template" type="xsd:string"/>  
+      </request>
+      <response status="200"> 
+        <representation mediaType="application/json" /> 
+      </response>
+      <response status="400"> 
+        <representation mediaType="application/json" describedby="aplication.wadl/error"/> 
+      </response> 
+    </method>
+  </resource>
+  <resource path="user/admin/{id}">
+    <method name="PUT" id="changeAdmin">
+      <request>
+        <param name="authorization" style="header" type="xsd:string"/>
+        <param name="id" style="template" type="xsd:string"/>  
+      </request>
+      <response status="200"> 
+        <representation mediaType="application/json" /> 
+      </response>
+      <response status="400"> 
+        <representation mediaType="application/json" describedby="aplication.wadl/error"/> 
+      </response> 
+    </method>
+  </resource>
+  <resource path="arquivo/{idTrabalho}">
+    <method name="POST" id="switchAdmin">
+      <request>
+        <param name="authorization" style="header" type="xsd:string"/>
+        <param name="idTrabalho" style="template" type="xsd:string"/> 
+      </request>
+      <response status="200"> 
+        <representation mediaType="application/json" /> 
+      </response>
+      <response status="400"> 
+        <representation mediaType="application/json" describedby="aplication.wadl/error"/> 
+      </response> 
+    </method>
+  </resource> 
+</resources>
 </application>

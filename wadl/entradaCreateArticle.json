@@ -1,18 +1,18 @@
 {
-    "type" : "object",
-    "properties" : {
-        "authors" : {
-            "type" : "array",
-            "properties": {
-                "type": "string"
-            }
-        },
-        "othersAuthors" : {
-            "type" : "string"
-        },
-        "advisor" : {
-            "type" : "string"
-        }
+  "type": "object",
+  "properties": {
+    "authors": {
+      "type": "array",
+      "properties": {
+        "type": "string"
+      }
     },
-    "name" : "entradaNovoUsuario"
+    "othersAuthors": {
+      "type": "string"
+    },
+    "advisor": {
+      "type": "string"
+    }
+  },
+  "name": "entradaCreateArticle"
 }
