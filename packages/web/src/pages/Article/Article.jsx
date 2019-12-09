@@ -53,7 +53,7 @@ export default function Article(props) {
       }
 
       if (article.orientador) {
-        if (article.orientador === id) {
+        if (article.orientador._id === id) {
           setIsOrientador(true);
         }
       }
@@ -80,7 +80,7 @@ export default function Article(props) {
       setEdit(article.editavel);
       setPublished(article.publicado);
     }
-  }, [article, id]);
+  }, [article]);
 
   useEffect(() => {
     async function fetchData() {
