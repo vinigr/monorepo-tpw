@@ -15,7 +15,8 @@
     "yup": "^0.27.0"
   },
   "scripts": {
-    "start": "nodemon ./src/server.js"
+    "start": "node ./src/server.js",
+    "dev": "nodemon ./src/server.js"
   },
   "devDependencies": {
     "eslint": "^6.5.0",
